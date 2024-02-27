@@ -1,10 +1,11 @@
 import React from 'react'
-import UserAuth from '../pages/userAuth/UserAuth'
+// import UserAuth from '../pages/userAuth/UserAuth'
+import HomePage from '../pages/HomePage/HomePage'
 
 const Rought = () => {
     return (
         <>
-            <UserAuth />
+            <HomePage />
         </>
     )
 }
