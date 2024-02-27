@@ -1,12 +1,11 @@
-import './App.css';
+import Rought from './rought/Rought';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        Shad Azam
-      </header>
-    </div>
+    <>
+      <Rought />
+    </>
+
   );
 }
 
