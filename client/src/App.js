@@ -1,9 +1,17 @@
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Rought from './rought/Rought';
 
-function App() {
+import './App.scss'
+import { BrowserRouter } from 'react-router-dom';
+
+const App = () => {
   return (
     <>
-      <Rought />
+      <BrowserRouter>
+        <Rought />
+      </BrowserRouter>
+
     </>
 
   );
