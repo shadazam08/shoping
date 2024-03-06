@@ -1,0 +1,24 @@
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // background-color: red;
+    height: 100vh;
+
+    .inputButton {
+        font-size: large;
+        font-weight: 700;
+    }
+
+    .loginHeader {
+        text-align: center;
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .alertMessage {
+        width: fit-content;
+        margin-left: auto;
+        margin-right: 30px;
+    }
+}
