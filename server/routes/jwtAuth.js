@@ -32,4 +32,48 @@ authRoute.post('/netAdminAcount', async (req, res) => {
     }
 })
 
+authRoute.post('/adminLogin', async (req, res) => {
+    const { email, password, role } = req.body
+
+    console.log('email:- ', email + ' password:- ', password + ' role: ', role);
+
+    try {
+        await pool;
+        const adminUser = await pool.query(`
+            SELECT al.*
+            FROM admin_login al
+            INNER JOIN account_roles ar ON al.admin_id = ar.admin_id
+            INNER JOIN roles r ON ar.role_id = r.role_id
+            WHERE r.role_name = $1
+            AND al.admin_email = $2
+        `, [role, email]);
+
+        if (adminUser.rows.length === 0 || adminUser.rows[0].admin_email !== email) {
+            return res.status(401).json({ message: 'Invalid Email ID' });
+        }
+
+        const hashedPassword = adminUser.rows[0].admin_password;
+        if (password !== hashedPassword) {
+            return res.status(401).json({ message: 'Invalid Password' });
+        }
+
+        const updateLastLoginTime = await pool.query(`UPDATE admin_login SET last_login  = NOW() WHERE admin_id = $1`, [adminUser.rows[0].admin_id]);
+        console.log(adminUser.rows);
+
+        if (updateLastLoginTime.rowCount !== 1) {
+            console.error('Failed to update last_login_time');
+        }
+
+        const adminToken = await jwtGenerator(adminUser.rows[0].admin_id);
+        const adminId = adminUser.rows[0].admin_id
+
+        res.json({ message: 'Logged in successfully', adminToken, adminId })
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json('Server Error');
+    }
+
+
+})
+
 module.exports = authRoute;
