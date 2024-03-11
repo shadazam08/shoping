@@ -3,7 +3,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 require('dotenv').config();
-const authRoute = require('./routes/jwtAuth')
+const authRoute = require('./routes/jwtAuth');
+const showData = require('./routes/showData');
+const insertData = require('./routes/insertData');
 
 const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, PORT, PORTS } = process.env;
 
@@ -26,6 +28,8 @@ app.use(express.static('admin'));
 
 //  ROUTERS
 app.use('/authRoute', authRoute)
+app.use('/showData', showData)
+app.use('/insertData', insertData)
 
 
 // Catch-all route handler for client
