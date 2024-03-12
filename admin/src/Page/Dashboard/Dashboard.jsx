@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
-import { useAuth } from '../../context/AppContext'
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { useAuth } from '../../context/AppContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDollar, faGraduationCap, faPencil, faTrash, faUser, faUsers } from '@fortawesome/free-solid-svg-icons'
 
-import { Box, Toolbar, Typography, CssBaseline } from '@mui/material';
+import { Box } from '@mui/material';
 import './dasboard.scss';
 // import './dasboard.css';
 
@@ -12,13 +11,34 @@ import './dasboard.scss';
 
 
 const Dashboard = () => {
-  const { logout, open, drawerWidth, Main, DrawerHeader } = useAuth();
-  const history = useNavigate();
+  const { open, Main, DrawerHeader, serverIP, serverPort } = useAuth();
+  const [totalStudent, setTotalStudent] = useState([]);
+  const [totalNewStudent, setTotalNewStudent] = useState([]);
 
-  const handleLogout = () => {
-    logout();
-    history('/login'); // Navigate to login page after logout
-  }
+
+  useEffect(() => {
+    const fetchStudentDetils = async () => {
+      try {
+        const response = await fetch(`http://${serverIP}:${serverPort}/showData/studentDetails`);
+        const parseRes = await response.json();
+        if (parseRes.message === 'success') {
+          // setMsgSuccess('Insert Success Full');
+          setTotalStudent(parseRes.totalStudents)
+          setTotalNewStudent(parseRes.totalNewStudents)
+          console.log('parseRes.totalStudents: ', parseRes.totalStudents)
+
+        } else {
+          console.error('URL Insert failed. Status:', response.status);
+          const errorMessage = await response.text();
+          console.error('Error message:', errorMessage);
+        }
+      } catch (error) {
+        console.error('Error during Inser:', error);
+      }
+    }
+    fetchStudentDetils();
+  }, [])
+
   return (
     <>
       <Box sx={{ flexGrow: 1, display: 'flex' }}>
@@ -43,7 +63,7 @@ const Dashboard = () => {
                           </span>
                           <div className="media-body text-white">
                             <p className="mb-1">Total Students</p>
-                            <h3 className="text-white">3280</h3>
+                            <h3 className="text-white">{totalStudent}</h3>
                             <div className="progress mb-2 bg-white">
                               <div className="progress-bar progress-animated bg-light" style={{ width: "80%" }}></div>
                             </div>
@@ -63,7 +83,7 @@ const Dashboard = () => {
                           </span>
                           <div className="media-body text-white">
                             <p className="mb-1">New Students</p>
-                            <h3 className="text-white">245</h3>
+                            <h3 className="text-white">{totalNewStudent}</h3>
                             <div className="progress mb-2 bg-white">
                               <div className="progress-bar progress-animated bg-light" style={{ width: "50%" }}></div>
                             </div>

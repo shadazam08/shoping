@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { Avatar, CssBaseline, Box, Button, Container, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
-import { AccountCircle, AltRoute, Link, Logout, SpaceDashboard } from '@mui/icons-material';
+import React, { useState } from 'react'
+import { Avatar, CssBaseline, Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
+import { AccountCircle, Logout, SpaceDashboard } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material/styles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -9,7 +9,7 @@ import { useAuth } from '../../context/AppContext';
 
 const NavBar = () => {
     const theme = useTheme();
-    const { open, setOpen, drawerWidth, DrawerHeader, AppBar, serverIP, serverPort, logout } = useAuth();
+    const { open, setOpen, drawerWidth, DrawerHeader, AppBar, logout } = useAuth();
     const [anchorElUser, setAnchorElUser] = useState(null);
 
 
