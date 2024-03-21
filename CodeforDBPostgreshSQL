@@ -1,0 +1,135 @@
+-- Create the admin_login table
+create table if not exists admin_login(
+	admin_id SERIAL primary key,
+	admin_name VARCHAR (100) not null,
+	admin_email VARCHAR(100) not null,
+	admin_password VARCHAR(20) not null,
+	created_at TIMESTAMP NOT NULL, 
+  	last_login TIMESTAMP
+); 
+
+-- Create the roles table
+create table if not exists roles(
+	role_id SERIAL primary key not null,
+	role_name VARCHAR(12) not null
+
+);
+
+-- Create the account_roles table
+create table if not exists account_roles (
+	admin_id int references admin_login(admin_id) on delete cascade ,
+	role_id int references roles(role_id) on delete cascade ,
+	grant_date TIMESTAMP
+);
+
+-- Create the student table
+create table if not exists student_login(
+	student_id SERIAL primary key not null,
+	student_name VARCHAR(100) not null,
+	student_email VARCHAR(100) not null,
+	student_password VARCHAR(100) not null,
+	student_mobile VARCHAR(15) not null,
+	student_street VARCHAR(500) not null,
+	student_city VARCHAR(100) not null,
+	student_state VARCHAR(100) not null,
+	student_zip_code VARCHAR(10) not null,
+	student_join_date TIMESTAMP not null
+);
+
+-- Create the courses table
+create table if not exists courses (
+    course_id SERIAL primary key not null,
+    course_name VARCHAR(255) not null,
+    course_description TEXT,
+    instructor_id int REFERENCES instructors(instructor_id) ON DELETE cascade,
+    course_duration_hours VARCHAR(15) not null,
+    course_start_date DATE,
+    course_end_date DATE
+);
+
+-- Create the courses fee table
+create table if not exists courses_fees (
+    courses_fee_id SERIAL primary key not null,
+    course_id int REFERENCES courses(course_id) ON DELETE cascade,
+    course_fees NUMERIC(10, 2)
+);
+
+-- Create the Instructors table
+CREATE TABLE if not exists instructors (
+    instructor_id SERIAL primary key not null,
+    instructor_name VARCHAR(100) NOT NULL,
+    instructor_email VARCHAR(100),
+    instructors_mobile VARCHAR(15) not null,
+    instructors_street VARCHAR(500) not null,
+	instructors_city VARCHAR(100) not null,
+	instructors_state VARCHAR(100) not null,
+	instructors_zip_code VARCHAR(10) not null,
+	instructors_join_date DATE not null
+);
+
+-- Create the student_courses_fees table
+create table if not exists student_courses_fees(
+	student_courses_fees_id SERIAL primary key not null,
+	course_id int REFERENCES courses(course_id) ON DELETE cascade,
+	courses_fee_id int REFERENCES courses_fees(courses_fee_id) ON DELETE cascade
+);
+
+create table if not exists student_course_selection (
+    selection_id SERIAL PRIMARY KEY NOT NULL,
+    student_id INT REFERENCES student_login(student_id) ON DELETE CASCADE,
+    student_courses_fees_id INT REFERENCES student_courses_fees(student_courses_fees_id) ON DELETE CASCADE
+);
+
+
+select count(student_id) from student_login;
+
+select count(student_join_date) from student_login;
+
+select count(course_id) from courses;
+
+SELECT COUNT(student_join_date) 
+FROM student_login 
+WHERE student_join_date >= CURRENT_DATE - INTERVAL '30' DAY;
+
+ALTER TABLE courses
+DROP COLUMN  course_fee;
+
+ALTER TABLE student_courses_fees
+DROP COLUMN student_id;
+
+ALTER TABLE student_courses_fees
+ADD COLUMN courses_fee_id int REFERENCES courses_fees(courses_fee_id) ON DELETE cascade;
+
+ALTER TABLE instructors
+ADD COLUMN status VARCHAR(8);
+
+ALTER TABLE courses
+ADD COLUMN status VARCHAR(8);
+
+ALTER TABLE student_login
+ADD COLUMN student_country VARCHAR(100) not null;
+
+alter table courses add constraint course_name_unique unique (course_name);
+
+update instructors  set  status = 'enable' where instructor_id = 4;
+
+update courses  set  status = 'enable' where course_id = 2;
+
+SELECT	* FROM admin_login;
+
+SELECT	* FROM account_roles;
+
+SELECT	* FROM roles;
+
+SELECT	* FROM student_login;
+
+SELECT	* FROM instructors;
+
+SELECT	* FROM courses;
+
+SELECT	* FROM courses_fees;
+
+SELECT	* FROM student_courses_fees;
+
+SELECT	* FROM student_course_selection;
+

@@ -8,12 +8,11 @@ import './dasboard.scss';
 // import './dasboard.css';
 
 
-
-
 const Dashboard = () => {
   const { open, Main, DrawerHeader, serverIP, serverPort } = useAuth();
   const [totalStudent, setTotalStudent] = useState([]);
   const [totalNewStudent, setTotalNewStudent] = useState([]);
+  const [totalCourses, setTotalCourses] = useState([]);
 
 
   useEffect(() => {
@@ -23,9 +22,11 @@ const Dashboard = () => {
         const parseRes = await response.json();
         if (parseRes.message === 'success') {
           // setMsgSuccess('Insert Success Full');
-          setTotalStudent(parseRes.totalStudents)
-          setTotalNewStudent(parseRes.totalNewStudents)
-          console.log('parseRes.totalStudents: ', parseRes.totalStudents)
+          setTotalStudent(parseRes.totalStudents);
+          setTotalNewStudent(parseRes.totalNewStudents);
+          setTotalCourses(parseRes.totalcountCourses);
+
+          console.log('parseRes.totalcountCourses: ', parseRes.totalcountCourses)
 
         } else {
           console.error('URL Insert failed. Status:', response.status);
@@ -37,7 +38,8 @@ const Dashboard = () => {
       }
     }
     fetchStudentDetils();
-  }, [])
+  }, []);
+
 
   return (
     <>
@@ -46,7 +48,7 @@ const Dashboard = () => {
           <DrawerHeader />
           <Box sx={{
             p: 1,
-            marginLeft: { sm: '240px', md: '240px', xs: '240px' },
+            marginLeft: { sm: '240px', md: '240px', xs: '240px' }
           }}>
             <div className="content-body">
 
@@ -64,10 +66,10 @@ const Dashboard = () => {
                           <div className="media-body text-white">
                             <p className="mb-1">Total Students</p>
                             <h3 className="text-white">{totalStudent}</h3>
-                            <div className="progress mb-2 bg-white">
-                              <div className="progress-bar progress-animated bg-light" style={{ width: "80%" }}></div>
+                            {/* <div className="progress mb-2 bg-white">
+                              <div className="progress-bar progress-animated bg-light" style={{ width: `${newTotal}%` }}></div>
                             </div>
-                            <small>80% Increase in 20 Days</small>
+                            <small>80% Increase in 20 Days</small> */}
                           </div>
                         </div>
                       </div>
@@ -84,10 +86,10 @@ const Dashboard = () => {
                           <div className="media-body text-white">
                             <p className="mb-1">New Students</p>
                             <h3 className="text-white">{totalNewStudent}</h3>
-                            <div className="progress mb-2 bg-white">
+                            {/* <div className="progress mb-2 bg-white">
                               <div className="progress-bar progress-animated bg-light" style={{ width: "50%" }}></div>
                             </div>
-                            <small>50% Increase in 25 Days</small>
+                            <small>50% Increase in 25 Days</small> */}
                           </div>
                         </div>
                       </div>
@@ -103,11 +105,11 @@ const Dashboard = () => {
                           </span>
                           <div className="media-body text-white">
                             <p className="mb-1">Total Course</p>
-                            <h3 className="text-white">28</h3>
-                            <div className="progress mb-2 bg-white">
+                            <h3 className="text-white">{totalCourses}</h3>
+                            {/* <div className="progress mb-2 bg-white">
                               <div className="progress-bar progress-animated bg-light" style={{ width: "76%" }}></div>
                             </div>
-                            <small>76% Increase in 20 Days</small>
+                            <small>76% Increase in 20 Days</small> */}
                           </div>
                         </div>
                       </div>
@@ -124,10 +126,10 @@ const Dashboard = () => {
                           <div className="media-body text-white">
                             <p className="mb-1">Fees Collection</p>
                             <h3 className="text-white">25160$</h3>
-                            <div className="progress mb-2 bg-white">
+                            {/* <div className="progress mb-2 bg-white">
                               <div className="progress-bar progress-animated bg-light" style={{ width: "30%" }}></div>
                             </div>
-                            <small>30% Increase in 30 Days</small>
+                            <small>30% Increase in 30 Days</small> */}
                           </div>
                         </div>
                       </div>

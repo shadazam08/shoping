@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState, lazy } from 'react'
+import React from 'react'
 import {
     createBrowserRouter,
     createRoutesFromElements,
@@ -13,55 +13,16 @@ import Register from "../register/Register";
 import Dashboard from "../Dashboard/Dashboard";
 import UserProfile from '../user/UserProfile';
 import NavBar from "../NavBar/NavBar";
+import AddCourses from '../AddCourses/AddCourses';
+import AddInstructors from '../AddInstructors/AddInstructors';
+import InstructorsList from '../AddInstructors/InstructorsList';
+import CoursesList from '../AddCourses/CoursesList';
+import ViewCourse from '../AddCourses/ViewCourse';
+import ViewInstructors from '../AddInstructors/ViewInstructors';
 
 
 const Routers = () => {
-    const { isLoggedIn, serverIP, serverPort } = useAuth();
-    // const [menuItems, setMenuItems] = useState([]);
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const response = await fetch(`http://${serverIP}:${serverPort}/showData/sideBarMenu`)
-    //         const parseRes = await response.json();
-    //         if (parseRes.message === 'success') {
-    //             // API call successful
-    //             const { sideMenuItems } = parseRes;
-
-    //             console.log('RouteMenu: ', sideMenuItems)
-    //             setMenuItems(sideMenuItems);
-
-    //         } else {
-    //             console.error('Data fetch failed. Status:', response.status);
-    //             const errorMessage = await response.text();
-    //             console.error('Error message:', errorMessage);
-    //         }
-    //     }
-    //     fetchData();
-    // }, []);
-
-
-    // const generateRoutes = () => {
-    //     return menuItems && menuItems.map((menuItem, index) => (
-    //         <Route
-    //             key={menuItem.menu_id}
-    //             exact
-    //             path={menuItem.admin_url}
-    //             element={isLoggedIn ? (
-    //                 <Suspense fallback={<div>Loading...</div>}>
-    //                     {lazy(() => import(`../${menuItem.admin_component}`))}
-    //                 </Suspense>
-    //             ) : (
-    //                 <Login />
-    //             )}
-    //         // element={isLoggedIn ? <menuItem.admin_component /> : <Login />}
-    //         />
-    //     ));
-
-    // };
-
-
-
-
+    const { isLoggedIn } = useAuth();
 
     const router = createBrowserRouter(
         createRoutesFromElements(
@@ -73,7 +34,12 @@ const Routers = () => {
                 <Route exact path='/dashboard' element={isLoggedIn ? <Dashboard /> : <Login />} />
 
                 <Route exact path='/dashboard/userProfile' element={isLoggedIn ? <UserProfile /> : <Login />} />
-                {/* {generateRoutes()} */}
+                <Route exact path='/dashboard/addCourses' element={isLoggedIn ? <AddCourses /> : <Login />} />
+                <Route exact path='/dashboard/addInstructors' element={isLoggedIn ? <AddInstructors /> : <Login />} />
+                <Route exact path='/dashboard/instructorsList' element={isLoggedIn ? <InstructorsList /> : <Login />} />
+                <Route exact path='/dashboard/instructorsList/viewInstructors/:instructId' element={isLoggedIn ? <ViewInstructors /> : <Login />} />
+                <Route exact path='/dashboard/coursesList' element={isLoggedIn ? <CoursesList /> : <Login />} />
+                <Route exact path='/dashboard/coursesList/viewCourse/:courseId' element={isLoggedIn ? <ViewCourse /> : <Login />} />
 
             </>
         )

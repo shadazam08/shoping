@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
 
 const AppContext = createContext();
@@ -55,7 +55,8 @@ export const AuthProvider = ({ children }) => {
     const [open, setOpen] = useState(false);
 
     const serverPort = 5000;
-    const serverIP = `localhost`;
+    const serverIP = window.location.hostname === 'localhost' ? 'localhost' : '192.168.1.7';
+    // const serverIP = `192.168.1.7`;
 
     useEffect(() => {
         const storedToken = localStorage.getItem('adminToken');

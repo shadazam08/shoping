@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Avatar, CssBaseline, Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
-import { AccountCircle, Logout, SpaceDashboard } from '@mui/icons-material';
+import { AccountCircle, CastForEducation, LibraryBooks, Logout, SpaceDashboard } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material/styles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -132,20 +132,6 @@ const NavBar = () => {
                     </DrawerHeader>
                     <Divider />
                     <List>
-                        {/* {menuItems && menuItems.map((text, index) => (
-                            <React.Fragment key={text.menu_id}>
-                                <ListItem disablePadding>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            {getIconForMenuItem(text.menu_name)}
-                                        </ListItemIcon>
-                                        <ListItemText sx={{ textTransform: 'capitalize' }} onClick={() => handleCloseUserMenu(`/${text.admin_url}`)} primary={text.menu_name} />
-                                    </ListItemButton>
-                                </ListItem>
-                                <Divider sx={{ backgroundColor: 'red' }} />
-                            </React.Fragment>
-                        ))} */}
-
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
@@ -161,6 +147,42 @@ const NavBar = () => {
                                     <AccountCircle />
                                 </ListItemIcon>
                                 <ListItemText onClick={() => handleCloseUserMenu(`/dashboard/userProfile`)} primary={'Profile'} />
+                            </ListItemButton>
+                        </ListItem>
+                        <Divider sx={{ backgroundColor: 'red' }} />
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <CastForEducation />
+                                </ListItemIcon>
+                                <ListItemText onClick={() => handleCloseUserMenu(`/dashboard/addInstructors`)} primary={'Add Instructors'} />
+                            </ListItemButton>
+                        </ListItem>
+                        <Divider sx={{ backgroundColor: 'red' }} />
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <CastForEducation />
+                                </ListItemIcon>
+                                <ListItemText onClick={() => handleCloseUserMenu(`/dashboard/instructorsList`)} primary={'Instructors List'} />
+                            </ListItemButton>
+                        </ListItem>
+                        <Divider sx={{ backgroundColor: 'red' }} />
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <LibraryBooks />
+                                </ListItemIcon>
+                                <ListItemText onClick={() => handleCloseUserMenu(`/dashboard/addCourses`)} primary={'Add Courses'} />
+                            </ListItemButton>
+                        </ListItem>
+                        <Divider sx={{ backgroundColor: 'red' }} />
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <LibraryBooks />
+                                </ListItemIcon>
+                                <ListItemText onClick={() => handleCloseUserMenu(`/dashboard/coursesList`)} primary={'Courses List'} />
                             </ListItemButton>
                         </ListItem>
                         <Divider sx={{ backgroundColor: 'red' }} />
