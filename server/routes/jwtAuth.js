@@ -4,7 +4,7 @@ require('dotenv').config();
 const jwtGenerator = require('../utils/jwtGenerator');
 
 
-authRoute.post('/netAdminAcount', async (req, res) => {
+authRoute.post('/newAdminAcount', async (req, res) => {
     const { fullName, email, password, role } = req.body;
     // console.log('firstName,lastName, email, password, role: ', firstName, lastName, email, password, role);
     try {
@@ -30,7 +30,7 @@ authRoute.post('/netAdminAcount', async (req, res) => {
         console.error(err.message);
         res.status(500).json('Server Error');
     }
-})
+});
 
 authRoute.post('/adminLogin', async (req, res) => {
     const { email, password, role } = req.body
@@ -74,6 +74,71 @@ authRoute.post('/adminLogin', async (req, res) => {
     }
 
 
-})
+});
+
+authRoute.post('/newStudentLogin', async (req, res) => {
+    const { name, email, password } = req.body;
+    try {
+
+        const checkStudentUser = await pool.query(`SELECT student_email FROM student_login where student_email = $1`, [email]);
+
+        if (checkStudentUser.rows.length > 0) {
+            return res.status(401).json('User Already Exits !');
+        }
+
+        const newStudent = await pool.query('INSERT INTO student_login(student_name, student_email, student_password, student_join_date) values ($1, $2, $3, NOW()) RETURNING student_id', [name, email, password]);
+
+        const student_id = newStudent.rows[0].student_id;
+
+        const token = await jwtGenerator(student_id);
+        res.json({ message: "Account Create successfully", student_id, token });
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json('Server Error');
+    }
+});
+
+authRoute.post('/studentLogin', async (req, res) => {
+    const { email, password } = req.body
+
+    console.log('email:- ', email + ' password:- ', password);
+
+    try {
+        const studentUser = await pool.query(`
+            SELECT *
+            FROM student_login
+            WHERE  student_email = $1
+        `, [email]);
+
+        const studentId = studentUser.rows[0].student_id
+
+        if (studentUser.rows.length === 0 || studentUser.rows[0].student_email !== email) {
+            return res.status(401).json({ message: 'Invalid Email ID' });
+        }
+
+        const hashedPassword = studentUser.rows[0].student_password;
+        if (password !== hashedPassword) {
+            return res.status(401).json({ message: 'Invalid Password' });
+        }
+
+        // const updateLastLoginTime = await pool.query(`UPDATE admin_login SET last_login  = NOW() WHERE admin_id = $1`, [studentId]);
+        console.log(studentUser.rows);
+
+        // if (updateLastLoginTime.rowCount !== 1) {
+        //     console.error('Failed to update last_login_time');
+        // }
+
+        const studentToken = await jwtGenerator(studentId);
+        
+
+        res.json({ message: 'Logged in successfully', studentToken, studentId })
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json('Server Error');
+    }
+
+
+});
 
 module.exports = authRoute;

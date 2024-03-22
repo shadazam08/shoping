@@ -45,7 +45,7 @@ const Register = () => {
             }
 
             try {
-                const response = await fetch(`http://${serverIP}:${serverPort}/authRoute/netAdminAcount`, {
+                const response = await fetch(`http://${serverIP}:${serverPort}/authRoute/newAdminAcount`, {
                     method: 'POST',
                     mode: 'cors',
                     headers: {

@@ -14,7 +14,7 @@ const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, PORT, PORTS } = process.env;
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }))
 const corsOptions = {
-    origin: ['http://localhost:3000', 'http://192.168.1.7:3000'],
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://192.168.1.7:3000', 'http://192.168.1.7:3001'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,

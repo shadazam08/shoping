@@ -1,0 +1,24 @@
+{
+    "apps": [
+        {
+            "name": "tutorial",
+            "script": "./index.js",
+            "watch": true,
+            "ignore_watch": [
+                "node_modules"
+            ],
+            "instances": 1,
+            "exec_mode": "cluster",
+            "env": {
+                "PGHOST": "localhost",
+                "PGDATABASE": "tutorial",
+                "PGUSER": "postgres",
+                "PGPASSWORD": "root",
+                "PORT": 5432,
+                "PORTS": 5000,
+                "ENDPOINT_ID": "ep-billowing-hill-a5fcv8oo",
+                "SECRET": "SHADAZAM@#8750$89"
+            }
+        }
+    ]
+}

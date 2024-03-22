@@ -16,7 +16,6 @@ const UserAuth = () => {
         "container " + (type === "signUp" ? "right-panel-active" : "");
     return (
         <div className="userAuth">
-            {/* <h2>Sign in/up Form</h2> */}
             <div className={containerClass} id="container">
                 <SignUp />
                 <Login />
