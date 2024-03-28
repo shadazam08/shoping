@@ -70,7 +70,7 @@ const CoursesList = () => {
             if (data.message === 'Deletion Successful') {
                 setMessage(`Delete Successful`);
                 setTimeout(() => setMessage(''), 3000);
-                fetchInstructorsList();
+                
             } else if (data.message === 'Deletion Failed') {
                 setMessage('Deletion Failed');
             }

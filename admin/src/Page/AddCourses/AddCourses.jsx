@@ -41,7 +41,7 @@ const AddCourses = () => {
             }
 
         }
-        
+
         fetchInstructors();
     }, [])
 
@@ -148,7 +148,7 @@ const AddCourses = () => {
         console.log('Submitted data:', formData);
     }
 
-    
+
     return (
         <Box sx={{ flexGrow: 1, display: 'flex' }}>
             <Main open={open}>
@@ -202,7 +202,7 @@ const AddCourses = () => {
                                     <DatePicker
                                         label="Course Start Date"
                                         name='course_start_date'
-                                        onChange={(date) => handleChange(event, date, 'course_start_date')}
+                                        onChange={(date) => handleChange(date, 'course_start_date')}
                                     />
                                 </LocalizationProvider>
                             </FormControl>
@@ -211,7 +211,7 @@ const AddCourses = () => {
                                     <DatePicker
                                         label="Course End Date"
                                         name='course_end_date'
-                                        onChange={(date) => handleChange(event, date, 'course_end_date')}
+                                        onChange={(date) => handleChange(date, 'course_end_date')}
                                     />
                                 </LocalizationProvider>
                             </FormControl>

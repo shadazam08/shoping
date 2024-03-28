@@ -146,5 +146,37 @@ showData.get('/viewInstructors/:instructId', async (req, res) => {
     }
 });
 
+showData.post('/viewsData', async (req, res) => {
+    const studentId = req.body.studentId;
+
+    console.log('studentId viewsData:', studentId);
+
+    try {
+
+        const user = await pool.query(`SELECT * FROM student_login where student_id = $1`, [studentId]);
+
+        const studentEmail = user.rows[0].student_email
+        const studentFirstName = user.rows[0].student_firstname;
+        const studentLastName = user.rows[0].student_lastname;
+        const studentMobileNumber = user.rows[0].student_mobile;
+        const studentCreatedOn = user.rows[0].student_join_date;
+        const studentLastLogin = user.rows[0].student_last_login;
+
+        const studentStreet = user.rows[0].student_street;
+        const studentCity = user.rows[0].student_city;
+        const studentState = user.rows[0].student_state;
+        const studentZipCode = user.rows[0].student_zip_code;
+        const studentCountry = user.rows[0].student_country;
+
+
+        res.json({ studentEmail, studentFirstName, studentLastName, studentMobileNumber, studentCreatedOn, studentLastLogin, studentStreet, studentCity, studentState, studentZipCode, studentCountry })
+
+    } catch (error) {
+        console.error('Error fetching image from database:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+})
+
 
 module.exports = showData;

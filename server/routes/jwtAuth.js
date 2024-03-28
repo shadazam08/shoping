@@ -77,7 +77,7 @@ authRoute.post('/adminLogin', async (req, res) => {
 });
 
 authRoute.post('/newStudentLogin', async (req, res) => {
-    const { name, email, password } = req.body;
+    const { fname, email, password, lname } = req.body;
     try {
 
         const checkStudentUser = await pool.query(`SELECT student_email FROM student_login where student_email = $1`, [email]);
@@ -86,7 +86,7 @@ authRoute.post('/newStudentLogin', async (req, res) => {
             return res.status(401).json('User Already Exits !');
         }
 
-        const newStudent = await pool.query('INSERT INTO student_login(student_name, student_email, student_password, student_join_date) values ($1, $2, $3, NOW()) RETURNING student_id', [name, email, password]);
+        const newStudent = await pool.query('INSERT INTO student_login(student_firstname, student_email, student_password, student_join_date, student_lastname) values ($1, $2, $3, NOW(), $4) RETURNING student_id', [fname, email, password, lname]);
 
         const student_id = newStudent.rows[0].student_id;
 
@@ -122,15 +122,14 @@ authRoute.post('/studentLogin', async (req, res) => {
             return res.status(401).json({ message: 'Invalid Password' });
         }
 
-        // const updateLastLoginTime = await pool.query(`UPDATE admin_login SET last_login  = NOW() WHERE admin_id = $1`, [studentId]);
+        const updateLastLoginTime = await pool.query(`UPDATE student_login SET student_last_login  = NOW() WHERE student_id = $1`, [studentId]);
         console.log(studentUser.rows);
 
-        // if (updateLastLoginTime.rowCount !== 1) {
-        //     console.error('Failed to update last_login_time');
-        // }
+        if (updateLastLoginTime.rowCount !== 1) {
+            console.error('Failed to update last_login_time');
+        }
 
         const studentToken = await jwtGenerator(studentId);
-        
 
         res.json({ message: 'Logged in successfully', studentToken, studentId })
     } catch (err) {

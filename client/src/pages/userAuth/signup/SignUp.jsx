@@ -8,7 +8,8 @@ const SignUp = () => {
     const [valid, setValid] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [values, setValues] = useState({
-        name: "",
+        fname: "",
+        lname:"",
         email: "",
         password: "",
         cpassword: ""
@@ -28,7 +29,7 @@ const SignUp = () => {
 
     const handleOnSubmit = async (event) => {
         event.preventDefault();
-        if (values.name && values.email && values.password) {
+        if (values.fname && values.lname && values.email && values.password) {
             if (values.password !== values.cpassword) {
                 setErrorMsg(true);
                 return; // Stop form submission if passwords don't match
@@ -66,18 +67,31 @@ const SignUp = () => {
             {valid && <Navigate to={'/'} />}
             <div className="form-container sign-up-container">
                 <form onSubmit={handleOnSubmit}>
-                    <h3>Create Account</h3>
+                    <h3 className='mb-2'>Create Account</h3>
                     {!valid && (
                         <input
                             type="text"
-                            name="name"
-                            value={values.name}
+                            name="fname"
+                            value={values.fname}
                             onChange={handleChange}
-                            placeholder="Name"
+                            placeholder="First Name"
                         />
                     )}
-                    {submitted && !values.name && (
-                        <span id="fullName-error">Please enter a Name</span>
+                    {submitted && !values.fname && (
+                        <span id="fullName-error">Please enter a First Name</span>
+                    )}
+
+                    {!valid && (
+                        <input
+                            type="text"
+                            name="lname"
+                            value={values.lname}
+                            onChange={handleChange}
+                            placeholder="Last Name"
+                        />
+                    )}
+                    {submitted && !values.lname && (
+                        <span id="fullName-error">Please enter a Last Name</span>
                     )}
 
                     {!valid && (
@@ -121,7 +135,7 @@ const SignUp = () => {
                         <span id="email-error">Please enter a confrim password</span>
                     )}
                     {!valid && (
-                        <button>Sign Up</button>
+                        <button className='mt-3'>Sign Up</button>
                     )}
 
                 </form>

@@ -17,8 +17,7 @@
 
 
 .userAuth {
-  // font-family: sans-serif;
-  // text-align: center;
+
 
   background: #f6f5f7;
   display: flex;
@@ -55,7 +54,7 @@
     font-family: "Roboto", sans-serif;
     font-size: 14px;
     color: red;
-    margin-bottom: 5px;
+    margin-bottom: 0.5px;
   }
 
   a {
@@ -77,11 +76,11 @@
     text-transform: uppercase;
     transition: transform 80ms ease-in;
 
-    :active {
+    &:active {
       transform: scale(0.95);
     }
 
-    :focus {
+    &:focus {
       outline: none;
     }
 
@@ -103,11 +102,18 @@
     text-align: center;
 
     input {
-      background-color: #eee;
-      border: none;
-      padding: 12px 15px;
-      margin: 8px 0;
+      border-top: none;
+      border-right: none;
+      border-left: none;
+      border-bottom: 1px solid #ff4b2b;
+      padding: 12px 0px;
       width: 100%;
+      outline: none;
+
+      &:focus {
+        border-bottom: 1px solid #333;
+      }
+
     }
   }
 

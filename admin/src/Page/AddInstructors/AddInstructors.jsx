@@ -268,7 +268,7 @@ const AddInstructors = () => {
                                     <DatePicker
                                         label="Instructors Join Date"
                                         name='instructors_join_date'
-                                        onChange={(date) => handleChange(event, date)}
+                                        onChange={(date) => handleChange(date)}
                                     />
                                 </LocalizationProvider>
                             </FormControl>
