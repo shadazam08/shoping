@@ -148,7 +148,6 @@ const StudentProfile = () => {
 
                     if (response.ok) {
                         const imageUrl = await response.json();
-                        // setImages(imageUrl);
                         console.log("Image: ", imageUrl);
                     } else {
                         console.error('Image upload failed. Status:', response.status);
@@ -174,7 +173,6 @@ const StudentProfile = () => {
         console.log('Zip Code:', zipCode);
         console.log('firstName:', firstName);
         console.log('lastName:', lastName);
-        // setIsProfileEdited(true);
     }, [address, cities, states, country, zipCode, firstName, lastName]);
 
     const handleInputClick = (inputId) => {
@@ -182,7 +180,6 @@ const StudentProfile = () => {
         if (!editMode) {
             setOriginalFirstName(firstName);
             setOriginalLastName(lastName);
-            // ... (set original values for other fields as needed)
         }
         setEditMode(true);
     };
@@ -200,8 +197,6 @@ const StudentProfile = () => {
         // ... (clear other fields)
         setEditMode(false); // Step 4
     };
-
-
 
     return (
         <Box sx={{ flexGrow: 1, display: 'flex' }}>
