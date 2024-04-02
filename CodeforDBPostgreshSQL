@@ -8,6 +8,18 @@ create table if not exists admin_login(
   	last_login TIMESTAMP
 ); 
 
+-- Create the admin detail table
+create table if not exists admin_details (
+	admin_details_id SERIAL primary key NOT NULL,
+	admin_details_admin_id int references admin_login(admin_id) on delete cascade,
+	admin_details_street VARCHAR(300),
+	admin_details_city VARCHAR(100),
+	admin_details_state VARCHAR(100),
+	admin_details_country VARCHAR(100),
+	admin_details_zip_code VARCHAR(10),
+	admin_details_images VARCHAR(100)
+);
+
 -- Create the roles table
 create table if not exists roles(
 	role_id SERIAL primary key not null,
@@ -109,6 +121,20 @@ ADD COLUMN status VARCHAR(8);
 ALTER TABLE student_login
 ADD COLUMN student_country VARCHAR(100) not null;
 
+ALTER TABLE student_login
+ADD COLUMN last_login date;
+
+ALTER TABLE student_login
+rename COLUMN last_login to student_last_login;
+
+ALTER TABLE student_login
+ALTER COLUMN student_last_login TYPE TIMESTAMP;
+
+ALTER TABLE student_login
+ADD COLUMN image varchar(200);
+
+alter table student_login rename column  image to student_images;
+
 alter table courses add constraint course_name_unique unique (course_name);
 
 update instructors  set  status = 'enable' where instructor_id = 4;
@@ -132,4 +158,8 @@ SELECT	* FROM courses_fees;
 SELECT	* FROM student_courses_fees;
 
 SELECT	* FROM student_course_selection;
+
+SELECT	* FROM admin_details;
+
+SELECT  * FROM student_login where student_id = 5;
 

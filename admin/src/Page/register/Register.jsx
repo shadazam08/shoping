@@ -9,7 +9,8 @@ const Register = () => {
     const { serverPort, serverIP } = useAuth()
     const [errorMsg, setErrorMsg] = useState(false);
     const [values, setValues] = useState({
-        fullName: "",
+        firstName: "",
+        lastName: "",
         email: "",
         password: '',
         password1: '',
@@ -38,7 +39,7 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (values.fullName && values.email && values.password && values.role) {
+        if (values.firstName && values.lastName && values.email && values.password && values.role) {
             if (values.password !== values.password1) {
                 setErrorMsg(true);
                 return; // Stop form submission if passwords don't match
@@ -80,15 +81,29 @@ const Register = () => {
                         <input
                             className="form-field"
                             type="text"
-                            placeholder="Full Name"
-                            name="fullName"
-                            value={values.fullName}
+                            placeholder="First Name"
+                            name="firstName"
+                            value={values.firstName}
                             onChange={handleInputChange}
                         />
                     )}
 
-                    {submitted && !values.fullName && (
-                        <span id="fullName-error">Please enter a Full Name</span>
+                    {submitted && !values.firstName && (
+                        <span id="fullName-error">Please enter a First Name</span>
+                    )}
+                    {!valid && (
+                        <input
+                            className="form-field"
+                            type="text"
+                            placeholder="Last Name"
+                            name="lastName"
+                            value={values.lastName}
+                            onChange={handleInputChange}
+                        />
+                    )}
+
+                    {submitted && !values.lastName && (
+                        <span id="fullName-error">Please enter a Last Name</span>
                     )}
                     {!valid && (
                         <input

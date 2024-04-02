@@ -176,6 +176,44 @@ showData.post('/viewsData', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 
+});
+
+showData.post('/adminViewsData', async (req, res) => {
+    const adminId = req.body.adminId;
+
+    // console.log('adminId viewsData:', adminId);
+
+    try {
+
+        const adminUser = await pool.query(`SELECT * FROM admin_login where admin_id = $1`, [adminId]);
+
+        const adminEmail = adminUser.rows[0].admin_email
+        const adminFirstName = adminUser.rows[0].admin_first_name;
+        const adminLastName = adminUser.rows[0].admin_last_name;
+        const adminLastLogin = adminUser.rows[0].last_login;
+        const adminCreatedOn = adminUser.rows[0].created_at;
+
+        const adminDetails = await pool.query(`SELECT * FROM admin_details WHERE admin_details_admin_id = $1`, [adminId]);
+
+
+        // console.log(adminDetails);
+
+
+        const adminMobileNumber = adminDetails.rows[0].admin_details_mobile;
+        const adminStreet = adminDetails.rows[0].admin_details_street;
+        const adminCity = adminDetails.rows[0].admin_details_city;
+        const adminState = adminDetails.rows[0].admin_details_state;
+        const adminZipCode = adminDetails.rows[0].admin_details_zip_code;
+        const adminCountry = adminDetails.rows[0].admin_details_country;
+
+
+        res.json({ adminEmail, adminFirstName, adminLastName, adminLastLogin, adminCreatedOn, adminMobileNumber, adminStreet, adminCity, adminState, adminZipCode, adminCountry });
+
+    } catch (error) {
+        console.error('Error fetching image from database:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
 })
 
 

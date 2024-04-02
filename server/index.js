@@ -12,7 +12,9 @@ const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, PORT, PORTS } = process.env;
 
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true }))
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
 const corsOptions = {
     origin: ['http://localhost:3000', 'http://localhost:3001', 'http://192.168.1.7:3000', 'http://192.168.1.7:3001'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -39,7 +41,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'index.html'));
 });
 // Catch-all route handler for admin
-app.get('/admin', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'admin', 'index.html'));
 });
 

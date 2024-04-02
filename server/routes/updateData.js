@@ -12,7 +12,14 @@ const storage = multer.diskStorage({
         cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname)); // Use the original filename
     }
 });
-
+const adminStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/adminProfileImage');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname)); // Use the original filename
+    }
+});
 const fileFilter = (req, file, cb) => {
     // Validate file type
     if (file.mimetype.startsWith('image/')) {
@@ -23,6 +30,10 @@ const fileFilter = (req, file, cb) => {
 };
 const upload = multer({
     storage: storage,
+    fileFilter: fileFilter,
+});
+const adminUpload = multer({
+    storage: adminStorage,
     fileFilter: fileFilter,
 });
 
@@ -193,7 +204,191 @@ updateData.post('/profileImage', upload.single('file'), async (req, res) => {
         res.status(500).json({ success: false, message: 'Image upload failed' });
     }
 
-})
+});
+
+updateData.post('/checkOldPassword', async (req, res) => {
+
+    const { studentsEmail, oldPassword } = req.body;
+
+    try {
+        const user = await pool.query('SELECT * FROM student_login WHERE student_email = $1', [studentsEmail]);
+
+        if (user.rows.length !== 1) {
+            return res.status(401).json({ message: 'Invalid Email ID !' });
+        }
+
+        if (oldPassword !== user.rows[0].student_password) {
+            return res.status(401).json({ success: false, message: 'Incorrect old password' });
+        }
+        // else if (oldPassword === user.rows[0].student_password) {
+        //     return res.status(200).json({ success: true, message: 'Old password is correct' });
+        // }
+
+        res.status(200).json({ success: true, message: 'Old password is correct' });
+
+    } catch (error) {
+        console.error('Password Updation Failed:', error);
+        res.status(500).json({ success: false, message: 'Password Updation Failed' });
+    }
+
+});
+updateData.post('/updatePassword', async (req, res) => {
+
+    const { studentsEmail, newPassword } = req.body;
+
+    try {
+        const user = await pool.query('SELECT * FROM student_login WHERE student_email = $1', [studentsEmail]);
+
+        if (user.rows.length !== 1) {
+            return res.status(401).json({ message: 'Invalid Email ID !' });
+        }
+
+        const updatePassword = await pool.query(`UPDATE student_login SET student_password = $1 WHERE student_email = $2`, [newPassword, studentsEmail]);
+
+        if (updatePassword.rowCount !== 1) {
+            return res.status(401).json({ message: 'Password Updation Failed' });
+        } else {
+            return res.status(200).json({ message: 'Password Updated Succesfully' });
+        }
+
+    } catch (error) {
+        console.error('Password Updation Failed:', error);
+        res.status(500).json({ success: false, message: 'Password Updation Failed' });
+    }
+
+});
+
+updateData.get('/getAdminImage', async (req, res) => {
+    const adminId = req.query.adminId;
+
+    console.log("getAdminImage adminId: ", adminId);
+
+    try {
+        const result = await pool.query('SELECT admin_details_images FROM admin_details WHERE admin_details_admin_id = $1', [adminId]);
+
+        if (result.rows.length > 0) {
+            const imageData = result.rows[0].admin_details_images;
+            res.setHeader('Content-Type', 'image/jpeg'); // Adjust the content type based on your image type
+            res.json(imageData);
+        } else {
+            res.status(404).json({ success: false, message: 'Image not found for the specified user ID' });
+        }
+    } catch (error) {
+        console.error('Error retrieving image:', error);
+        res.status(500).json({ success: false, message: 'Error retrieving image from the database' });
+    }
+});
+
+updateData.post('/updateAdminDetails', async (req, res) => {
+    const { adminId, address, cities, states, country, zipCode, firstName, lastName, phone } = req.body;
+    try {
+
+        const userSelect = await pool.query(`SELECT * FROM admin_login where admin_id = $1`, [adminId]);
+
+        const adminSelect = await pool.query(`SELECT * FROM admin_details where admin_details_admin_id = $1`, [adminId]);
+
+        console.log('userSelect: ', userSelect);
+
+        if (userSelect.rows.length === 1) {
+            await pool.query(`UPDATE admin_login SET admin_first_name = $1, admin_last_name = $2 WHERE admin_id = $3`, [firstName, lastName, adminId])
+        }
+
+        if (adminSelect.rows.length === 1) {
+            // res.status(401).json({ message: 'id All Ready Exits !' });
+            await pool.query(`UPDATE admin_details SET admin_details_street = $1,  admin_details_city = $2, admin_details_state= $3, admin_details_country = $4, admin_details_zip_code = $5, admin_details_mobile = $6 where admin_details_admin_id = $7`, [address, cities, states, country, zipCode, phone, adminId]);
+
+        } else {
+            await pool.query(`INSERT INTO admin_details(admin_details_admin_id, admin_details_street, admin_details_city, admin_details_state, admin_details_country, admin_details_zip_code, admin_details_mobile) VALUES($1, $2, $3, $4, $5, $6, $7)`, [adminId, address, cities, states, country, zipCode, phone]);
+        }
+        res.json({ message: 'update success full' })
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json('Server Error');
+    }
+});
+
+updateData.post('/adminProfileImage', adminUpload.single('file'), async (req, res) => {
+    try {
+        const adminId = req.body.adminId;
+
+        console.log('adminProfileImage : ', adminId)
+        if (!adminId) {
+            return res.status(400).json({ success: false, message: 'Admin Id is required' });
+        }
+
+        if (!req.file) {
+            return res.status(400).json({ success: false, message: 'No image file provided' });
+        }
+
+        const { filename, path, mimetype } = req.file;
+        console.log('Uploaded File:', { filename, path, mimetype });
+
+        const imageUrl = `${req.file.filename}`;
+
+        const success = await pool.query(`UPDATE admin_details SET admin_details_images = $1 WHERE admin_details_admin_id = $2`, [imageUrl, adminId]);
+
+        if (success) {
+            res.json({ success: true, message: 'Image updated successfully' });
+        } else {
+            res.status(500).json({ success: false, message: 'Error updating image in the database' });
+        }
+    } catch (error) {
+        console.error('Error during image upload:', error);
+        res.status(500).json({ success: false, message: 'Image upload failed' });
+    }
+
+});
+
+updateData.post('/adminPasswordCheck', async (req, res) => {
+
+    const { adminEmail, oldPassword } = req.body;
+
+    try {
+        const user = await pool.query('SELECT * FROM admin_login WHERE admin_email = $1', [adminEmail]);
+
+        if (user.rows.length !== 1) {
+            return res.status(401).json({ message: 'Invalid Email ID !' });
+        }
+
+        if (oldPassword !== user.rows[0].admin_password) {
+            return res.status(401).json({ success: false, message: 'Incorrect old password' });
+        }
+
+        res.status(200).json({ success: true, message: 'Old password is correct' });
+
+    } catch (error) {
+        console.error('Password Updation Failed:', error);
+        res.status(500).json({ success: false, message: 'Password Updation Failed' });
+    }
+
+});
+
+updateData.post('/adminUpdatePassword', async (req, res) => {
+
+    const { adminEmail, newPassword } = req.body;
+
+    try {
+        const user = await pool.query('SELECT * FROM admin_login WHERE admin_email = $1', [adminEmail]);
+
+        if (user.rows.length !== 1) {
+            return res.status(401).json({ message: 'Invalid Email ID !' });
+        }
+
+        const updatePassword = await pool.query(`UPDATE admin_login SET admin_password = $1 WHERE admin_email = $2`, [newPassword, adminEmail]);
+
+        if (updatePassword.rowCount !== 1) {
+            return res.status(401).json({ message: 'Password Updation Failed' });
+        } else {
+            return res.status(200).json({ message: 'Password Updated Succesfully' });
+        }
+
+    } catch (error) {
+        console.error('Password Updation Failed:', error);
+        res.status(500).json({ success: false, message: 'Password Updation Failed' });
+    }
+
+});
 
 
 module.exports = updateData

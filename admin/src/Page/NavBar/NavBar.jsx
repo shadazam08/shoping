@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar, CssBaseline, Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
 import { AccountCircle, CastForEducation, LibraryBooks, Logout, SpaceDashboard } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -6,11 +6,36 @@ import { useTheme } from '@mui/material/styles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useAuth } from '../../context/AppContext';
+import userDefaultImage from '../../assets/images/21104.png'
 
 const NavBar = () => {
     const theme = useTheme();
-    const { open, setOpen, drawerWidth, DrawerHeader, AppBar, logout } = useAuth();
+    const { open, setOpen, drawerWidth, DrawerHeader, AppBar, logout, serverIP, serverPort } = useAuth();
     const [anchorElUser, setAnchorElUser] = useState(null);
+    const [viewImages, setImages] = useState();
+    const adminId = localStorage.getItem('adminId')
+
+
+    useEffect(() => {
+
+        const fetchImageData = async (adminId) => {
+            try {
+                const responce = await fetch(`http://${serverIP}:${serverPort}/updateData/getAdminImage?adminId=${adminId}`, {
+                    method: 'GET',
+                })
+                if (responce.ok) {
+                    const dataImage = await responce.json();
+                    console.log(dataImage);
+                    setImages(dataImage);
+                } else {
+                    console.error('Image fetch failed. Status:', responce.status);
+                }
+            } catch (error) {
+                console.error('Error during FETCH:', error);
+            }
+        }
+        fetchImageData(adminId);
+    }, [adminId])
 
 
     const handleDrawerOpen = () => {
@@ -73,7 +98,7 @@ const NavBar = () => {
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title='Open Settings'>
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt='Remy Sharp' src='https://live.staticflickr.com/4761/40467034982_9b599c76af_n.jpg' />
+                                    <Avatar alt="studentImage" src={viewImages ? `http://${serverIP}:${serverPort}/adminProfileImage/${viewImages}` : userDefaultImage} />
                                 </IconButton>
                             </Tooltip>
                             <Menu

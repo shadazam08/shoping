@@ -5,17 +5,18 @@ const jwtGenerator = require('../utils/jwtGenerator');
 
 
 authRoute.post('/newAdminAcount', async (req, res) => {
-    const { fullName, email, password, role } = req.body;
-    // console.log('firstName,lastName, email, password, role: ', firstName, lastName, email, password, role);
+    const { firstName, lastName, email, password, role } = req.body;
+
     try {
-        await pool;
         const checkAdminUser = await pool.query(`SELECT admin_email FROM admin_login where admin_email = $1`, [email]);
         if (checkAdminUser.rows.length > 0) {
             return res.status(401).json('User Already Exits !');
         }
-        const newUser = await pool.query('INSERT INTO admin_login(admin_name, admin_email, admin_password, created_at, last_login) values ($1, $2, $3, NOW(), NOW()) RETURNING admin_id', [fullName, email, password]);
+        const newUser = await pool.query('INSERT INTO admin_login(admin_first_name, admin_email, admin_password, created_at, last_login, admin_last_name) values ($1, $2, $3, NOW(), NOW(), $4) RETURNING admin_id', [firstName, email, password, lastName]);
 
         const admin_id = newUser.rows[0].admin_id;
+
+        await pool.query(`INSERT INTO admin_details(admin_details_admin_id) VALUES ($1)`, [admin_id]);
 
         const selectRoleid = await pool.query(`select role_id from roles where role_name = $1`, [role]);
 
@@ -101,7 +102,6 @@ authRoute.post('/newStudentLogin', async (req, res) => {
 
 authRoute.post('/studentLogin', async (req, res) => {
     const { email, password } = req.body
-
     console.log('email:- ', email + ' password:- ', password);
 
     try {
@@ -139,5 +139,8 @@ authRoute.post('/studentLogin', async (req, res) => {
 
 
 });
+
+
+
 
 module.exports = authRoute;

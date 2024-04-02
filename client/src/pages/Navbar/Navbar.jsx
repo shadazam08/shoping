@@ -149,7 +149,7 @@ const Navbar = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         {/* <Tooltip> */}
                         <IconButton onClick={() => handlUserMenu(`/dashboard`)} sx={{ p: 0 }}>
-                            <Avatar alt="studentImage" src={viewImages ? `http://localhost:5000/profilImage/${viewImages}` : userDefaultImage} />
+                            <Avatar alt="studentImage" src={viewImages ? `http://${serverIP}:${serverPort}/profilImage/${viewImages}` : userDefaultImage} />
                         </IconButton>
                         {/* </Tooltip> */}
                         {/* <Menu

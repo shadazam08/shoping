@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap';
 import './changePassword.scss'
 import Alert from 'react-bootstrap/Alert';
-import { useAuth } from '../../context/AppContext';
+import { useAuth } from '../../../context/AppContext';
 
 
 const ChangePassword = () => {
@@ -14,7 +14,7 @@ const ChangePassword = () => {
     const [dbPassword, setDbPassword] = useState(false)
     const { serverIP, serverPort } = useAuth();
     const studentId = localStorage.getItem('studentId');
-    const studentsEmail = localStorage.getItem('studentsEmail');
+    const adminEmail = localStorage.getItem('adminEmail');
 
     // useEffect(() => {
     //     const fetchData = async () => {
@@ -58,8 +58,8 @@ const ChangePassword = () => {
         }
 
         try {
-            const body = { studentsEmail, newPassword, oldPassword };
-            const oldPasswordCheck = await fetch(`http://${serverIP}:${serverPort}/updateData/checkOldPassword`, {
+            const body = { adminEmail, newPassword, oldPassword };
+            const oldPasswordCheck = await fetch(`http://${serverIP}:${serverPort}/updateData/adminPasswordCheck`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: { 'Content-Type': 'application/json' },
@@ -78,7 +78,7 @@ const ChangePassword = () => {
 
             if (newPassword === confrimPassword) {
 
-                const responce = await fetch(`http://${serverIP}:${serverPort}/updateData/updatePassword`, {
+                const responce = await fetch(`http://${serverIP}:${serverPort}/updateData/adminUpdatePassword`, {
                     method: 'POST',
                     mode: 'cors',
                     headers: { 'Content-Type': 'application/json' },
@@ -117,7 +117,7 @@ const ChangePassword = () => {
                 <Form>
                     <Form.Group className="mb-3" controlId="formBasicEmails" hidden>
                         <Form.Label className='mt-2'>Email address</Form.Label>
-                        <Form.Control type="email" value={studentsEmail} disabled />
+                        <Form.Control type="email" value={adminEmail} disabled />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Old Password</Form.Label>

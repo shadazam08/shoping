@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Avatar, Box, Grid, Typography } from '@mui/material'
+import { Avatar, Box, Grid } from '@mui/material'
 import { Alert, Button, Card, Form, Modal } from 'react-bootstrap';
 import { useAuth } from '../../context/AppContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -88,7 +88,7 @@ const StudentProfile = () => {
                 })
                 if (responce.ok) {
                     const dataImage = await responce.json();
-                    console.log(dataImage);
+                    // console.log(dataImage);
                     setImages(dataImage);
                 } else {
                     console.error('Image fetch failed. Status:', responce.status);
@@ -110,8 +110,9 @@ const StudentProfile = () => {
                 });
                 if (responce.ok) {
                     const data = await responce.json();
-                    // console.log('data: ', data)
-                    setEmail(data.studentEmail)
+                    const studentsEmail = data.studentEmail
+                    localStorage.setItem('studentsEmail', studentsEmail);
+                    setEmail(studentsEmail)
                     setFirstName(data.studentFirstName);
                     setLastName(data.studentLastName);
                     setPhone(data.studentMobileNumber);
@@ -123,8 +124,6 @@ const StudentProfile = () => {
                     setStates(data.studentState)
                     setZipCode(data.studentZipCode)
                     setCountry(data.studentCountry)
-
-                    // setIsProfileEdited(false);
                 } else {
                     console.error('Email Not Found . Status:', responce.status);
                     const errorMessage = await responce.text();
@@ -166,13 +165,13 @@ const StudentProfile = () => {
     }, [uploadedImage]);
 
     useEffect(() => {
-        console.log('Address:', address);
-        console.log('City:', cities);
-        console.log('State:', states);
-        console.log('Country:', country);
-        console.log('Zip Code:', zipCode);
-        console.log('firstName:', firstName);
-        console.log('lastName:', lastName);
+        // console.log('Address:', address);
+        // console.log('City:', cities);
+        // console.log('State:', states);
+        // console.log('Country:', country);
+        // console.log('Zip Code:', zipCode);
+        // console.log('firstName:', firstName);
+        // console.log('lastName:', lastName);
     }, [address, cities, states, country, zipCode, firstName, lastName]);
 
     const handleInputClick = (inputId) => {
@@ -188,14 +187,11 @@ const StudentProfile = () => {
     const handleCloseModal = () => setShowModal(false);
 
     const handleClear = () => {
-        // Implement clearing logic for each field here
         if (editMode) {
             setFirstName(originalFirstName);
             setLastName(originalLastName);
-            // ... (clear other fields)
         }
-        // ... (clear other fields)
-        setEditMode(false); // Step 4
+        setEditMode(false);
     };
 
     return (
@@ -206,7 +202,7 @@ const StudentProfile = () => {
                     p: 1,
                 }}>
                     <Box sx={{ flexGrow: 1 }}>
-                        <Grid container spacing={3} className=' profileMain'>
+                        <Grid container spacing={3} className='profileMain'>
                             <Grid item xs={12}>
                                 <div ref={formRef}>
                                     {showAlert && <Alert variant='success' className='alertMessages'> Updated Successfully</Alert>}
@@ -221,7 +217,6 @@ const StudentProfile = () => {
                                                     />
                                                     SAVE
                                                 </Button>
-
                                                 <Button variant='danger' className='text-light ms-2' style={{ padding: '0 1.5rem 0 0.2rem' }} onClick={handleClear}>
                                                     <FontAwesomeIcon icon={faBroom} />
                                                     Clear
@@ -235,8 +230,7 @@ const StudentProfile = () => {
                                             <div className='imageLeft mb-5'>
                                                 <Card.Img
                                                     variant='top'
-                                                    // src={viewImages || userDefaultImage}
-                                                    src={viewImages ? `http://localhost:5000/profilImage/${viewImages}` : userDefaultImage}
+                                                    src={viewImages ? `http://${serverIP}:${serverPort}/profilImage/${viewImages}` : userDefaultImage}
                                                     alt='ProfileImage'
                                                     className='imageStyle'
                                                     onClick={() => fileInputRef.current.click()}
@@ -249,17 +243,7 @@ const StudentProfile = () => {
                                                     onChange={(e) => setUploadedImage(e.target.files[0])}
                                                     ref={fileInputRef}
                                                 />
-                                                <FontAwesomeIcon
-                                                    icon={faEdit}
-                                                    onClick={() => fileInputRef.current.click()}
-                                                    style={{
-                                                        position: 'absolute',
-                                                        bottom: '0',
-                                                        left: '7%',
-                                                        transform: 'translateY(-150px)',
-                                                        cursor: 'pointer'
-                                                    }}
-                                                />
+
                                                 <h3 className=' text-capitalize'>
                                                     {firstName + " " + lastName}
                                                 </h3>
@@ -322,27 +306,6 @@ const StudentProfile = () => {
                                                             onChange={(e) => setLastName(e.target.value)}
                                                         />
                                                     </Form.Group>
-                                                    {/* <Form.Group className="mb-3 lastName" controlId="formBasicLastName">
-                                                        <Form.Label className='mt-2'>Gender</Form.Label>
-                                                        <Form.Control
-                                                            type="text"
-                                                            style={{
-                                                                borderBottom: clickedInput === 'gender' ? '2px solid #007BFF' : '2px solid #000',
-                                                                backgroundColor: '#F5F5F5',
-                                                                color: '#000',
-                                                                borderTop: 'none',
-                                                                borderLeft: 'none',
-                                                                borderRight: 'none',
-                                                                borderRadius: '0',
-                                                                transition: 'none'
-                                                            }}
-                                                            onClick={() => handleInputClick('gender')}
-                                                            className='disableHover text-capitalize'
-                                                            value={gender}
-                                                            disabled
-                                                            readOnly
-                                                        />
-                                                    </Form.Group> */}
                                                 </Form>
                                             </Card.Text>
                                         </Card.Body>
@@ -387,8 +350,6 @@ const StudentProfile = () => {
                                                         className='disableHover'
                                                         value={phone}
                                                         onChange={(e) => setPhone(e.target.value)}
-
-
                                                     />
                                                 </Form.Group>
                                                 <Form.Group className="mb-3 lastName" controlId="formBasicEmail">
@@ -413,8 +374,8 @@ const StudentProfile = () => {
                                                 </Form.Group>
                                             </Form>
                                             <Form className='nameForm'>
-                                                <Form.Group className="mb-3 firstNmae" controlId="formBasicPhone">
-                                                    <Form.Label className='mt-2'>created on</Form.Label>
+                                                <Form.Group className="mb-3 firstNmae" controlId="formBasicCreatedOn">
+                                                    <Form.Label className='mt-2'>Created On</Form.Label>
                                                     <Form.Control
                                                         type="text"
                                                         style={{
@@ -443,7 +404,7 @@ const StudentProfile = () => {
                                                         disabled
                                                     />
                                                 </Form.Group>
-                                                <Form.Group className="mb-3 firstNmae" controlId="formBasicPhone">
+                                                <Form.Group className="mb-3 firstNmae" controlId="formBasicLastLogin">
                                                     <Form.Label className='mt-2'>Last Login</Form.Label>
                                                     <Form.Control
                                                         type="text"
@@ -490,11 +451,10 @@ const StudentProfile = () => {
 
                                             <h4>{address || ''}</h4>
                                             <p>{(cities || '') + ' ' + (states || '') + ' ' + (zipCode || '') + ' ' + (country || '')} </p>
-
                                         </div>
                                         <Card.Text>
                                             <Form className='nameForm'>
-                                                <Form.Group className="mb-3 firstNmae" controlId="formBasicCountry">
+                                                <Form.Group className="mb-3 firstNmae" controlId="formBasicAddress">
                                                     <Form.Label className='mt-2'>Address</Form.Label>
                                                     <Form.Control
                                                         type="text"
@@ -536,7 +496,7 @@ const StudentProfile = () => {
                                                 </Form.Group>
                                             </Form>
                                             <Form className='nameForm'>
-                                                <Form.Group className="mb-3 lastName" controlId="formBasicCity">
+                                                <Form.Group className="mb-3 lastName" controlId="formBasicState">
                                                     <Form.Label className='mt-2'>State</Form.Label>
                                                     <Form.Control
                                                         type="text"
@@ -556,7 +516,7 @@ const StudentProfile = () => {
                                                         className='disableHover'
                                                     />
                                                 </Form.Group>
-                                                <Form.Group className="mb-3 lastName" controlId="formBasicCity">
+                                                <Form.Group className="mb-3 lastName" controlId="formBasicCountry">
                                                     <Form.Label className='mt-2'>Country</Form.Label>
                                                     <Form.Control
                                                         type="text"
@@ -576,7 +536,7 @@ const StudentProfile = () => {
                                                         className='disableHover'
                                                     />
                                                 </Form.Group>
-                                                <Form.Group className="mb-3 lastName" controlId="formBasicCity">
+                                                <Form.Group className="mb-3 lastName" controlId="formBasicZipCode">
                                                     <Form.Label className='mt-2'>Zip Code</Form.Label>
                                                     <Form.Control
                                                         type="text"
@@ -603,7 +563,6 @@ const StudentProfile = () => {
                                 </Card>
                             </Grid>
                         </Grid>
-
                     </Box>
                 </Box>
             </Main>
@@ -612,3 +571,27 @@ const StudentProfile = () => {
 }
 
 export default StudentProfile
+
+
+
+{/* <Form.Group className="mb-3 lastName" controlId="formBasicLastName">
+                                                        <Form.Label className='mt-2'>Gender</Form.Label>
+                                                        <Form.Control
+                                                            type="text"
+                                                            style={{
+                                                                borderBottom: clickedInput === 'gender' ? '2px solid #007BFF' : '2px solid #000',
+                                                                backgroundColor: '#F5F5F5',
+                                                                color: '#000',
+                                                                borderTop: 'none',
+                                                                borderLeft: 'none',
+                                                                borderRight: 'none',
+                                                                borderRadius: '0',
+                                                                transition: 'none'
+                                                            }}
+                                                            onClick={() => handleInputClick('gender')}
+                                                            className='disableHover text-capitalize'
+                                                            value={gender}
+                                                            disabled
+                                                            readOnly
+                                                        />
+                                                    </Form.Group> */}
