@@ -91,11 +91,12 @@ const Login = () => {
                 }, 2000);
             } else {
                 if (parseRes.message === 'Invalid Email ID') {
-                    setLoginError('Email Id Invalid');
+                    // setLoginError('Email Id Invalid');
+
                 } else if (parseRes.message === 'Invalid Password') {
-                    setLoginError('Password Invalid');
+                    // setLoginError('Password Invalid');
                 } else if (parseRes.message === 'User is Disable') {
-                    setLoginError('User Is Disabled');
+                    // setLoginError('User Is Disabled');
 
                 }
                 console.error('Login failed. Status:', response.status);

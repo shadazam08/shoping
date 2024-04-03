@@ -216,10 +216,10 @@ const UserProfile = () => {
         setEditMode(false);
     };
 
-    const handleLogout = () => {
-        logout();
-        history("/login"); // Navigate to login page after logout
-    };
+    // const handleLogout = () => {
+    //     logout();
+    //     history("/login"); // Navigate to login page after logout
+    // };
     return (
         <Box sx={{ flexGrow: 1, display: "flex" }}>
             <Main open={open}>
