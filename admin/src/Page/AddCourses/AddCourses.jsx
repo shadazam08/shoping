@@ -5,9 +5,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Add } from '@mui/icons-material';
-// import CoreDataTable from '../../CoreDataTable/CoreDataTable';
-// import moment from 'moment'
-
 
 const AddCourses = () => {
     const { open, Main, DrawerHeader, serverIP, serverPort } = useAuth();
@@ -67,7 +64,6 @@ const AddCourses = () => {
         }
         setError('');
     };
-
 
     const submitCourse = async (event) => {
         event.preventDefault();

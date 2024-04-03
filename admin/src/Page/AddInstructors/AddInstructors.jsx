@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { Alert, Box, Button, FormControl, InputLabel, OutlinedInput } from '@mui/material'
-import { useAuth } from '../../context/AppContext'
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { useAuth } from '../../context/AppContext';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { Add } from '@mui/icons-material';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 // import CoreDataTable from '../../CoreDataTable/CoreDataTable';
 // import moment from 'moment'
 
@@ -85,12 +87,6 @@ const AddInstructors = () => {
     //         },
     //     },
     // ];
-
-
-
-
-
-
 
     const handleChange = (event, date) => {
         if (date !== undefined) {
