@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Avatar, Box, Grid } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import { Alert, Button, Card, Form, Modal } from 'react-bootstrap';
 import { useAuth } from '../../context/AppContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAt, faBroom, faEdit, faLock, faMap, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faAt, faBroom, faLock, faMap, faSave } from '@fortawesome/free-solid-svg-icons';
 import userDefaultImage from '../../assets/images/21104.png'
 import './student.scss';
 import ChangePassword from '../ChangePassword/ChangePassword'

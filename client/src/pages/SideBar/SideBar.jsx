@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react';
 import { Box, CssBaseline, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
 import { AccountBox, Logout, PieChart } from '@mui/icons-material';
 import { useAuth } from '../../context/AppContext';
@@ -6,8 +6,7 @@ import { useAuth } from '../../context/AppContext';
 const drawerWidth = 180;
 
 const SideBar = () => {
-    const { logout, serverIP, serverPort } = useAuth();
-    
+    const { logout } = useAuth();
 
     const handleLogout = (urlpage) => {
         logout();
@@ -21,7 +20,6 @@ const SideBar = () => {
         if (page && typeof page === 'string') {
             window.location.href = page;
         }
-
     };
 
     return (
@@ -36,8 +34,6 @@ const SideBar = () => {
                     top: 0,
                     [`& .MuiDrawer-paper`]: { width: drawerWidth },
                     zIndex: '1',
-
-
                 }}
             >
                 <Toolbar />
@@ -71,10 +67,8 @@ const SideBar = () => {
                         </ListItem>
                         <Divider sx={{ backgroundColor: 'red' }} />
                     </List>
-
                 </Box>
             </Drawer>
-
         </Box>
     )
 }

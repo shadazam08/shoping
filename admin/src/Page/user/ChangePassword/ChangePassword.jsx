@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap';
 import './changePassword.scss'
 import Alert from 'react-bootstrap/Alert';
@@ -13,7 +13,6 @@ const ChangePassword = () => {
     const [oldPassword, setOldPassword] = useState();
     const [dbPassword, setDbPassword] = useState(false)
     const { serverIP, serverPort } = useAuth();
-    const studentId = localStorage.getItem('studentId');
     const adminEmail = localStorage.getItem('adminEmail');
 
     // useEffect(() => {

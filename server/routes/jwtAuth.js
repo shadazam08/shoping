@@ -36,10 +36,7 @@ authRoute.post('/newAdminAcount', async (req, res) => {
 authRoute.post('/adminLogin', async (req, res) => {
     const { email, password, role } = req.body
 
-    console.log('email:- ', email + ' password:- ', password + ' role: ', role);
-
     try {
-        await pool;
         const adminUser = await pool.query(`
             SELECT al.*
             FROM admin_login al
@@ -101,8 +98,7 @@ authRoute.post('/newStudentLogin', async (req, res) => {
 });
 
 authRoute.post('/studentLogin', async (req, res) => {
-    const { email, password } = req.body
-    console.log('email:- ', email + ' password:- ', password);
+    const { email, password } = req.body;
 
     try {
         const studentUser = await pool.query(`
@@ -123,7 +119,6 @@ authRoute.post('/studentLogin', async (req, res) => {
         }
 
         const updateLastLoginTime = await pool.query(`UPDATE student_login SET student_last_login  = NOW() WHERE student_id = $1`, [studentId]);
-        console.log(studentUser.rows);
 
         if (updateLastLoginTime.rowCount !== 1) {
             console.error('Failed to update last_login_time');
@@ -136,8 +131,6 @@ authRoute.post('/studentLogin', async (req, res) => {
         console.error(err.message);
         res.status(500).json('Server Error');
     }
-
-
 });
 
 

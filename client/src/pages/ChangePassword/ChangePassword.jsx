@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap';
 import './changePassword.scss'
 import Alert from 'react-bootstrap/Alert';
@@ -13,38 +13,7 @@ const ChangePassword = () => {
     const [oldPassword, setOldPassword] = useState();
     const [dbPassword, setDbPassword] = useState(false)
     const { serverIP, serverPort } = useAuth();
-    const studentId = localStorage.getItem('studentId');
     const studentsEmail = localStorage.getItem('studentsEmail');
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const body = {
-    //             studentId: studentId
-    //         }
-    //         try {
-
-    //             const responce = await fetch(`http://${serverIP}:${serverPort}/updateData/updatePassword`, {
-    //                 method: 'POST',
-    //                 mode: 'cors',
-    //                 headers: { 'Content-Type': 'application/json' },
-    //                 body: JSON.stringify(body),
-    //             });
-    //             if (responce.ok) {
-    //                 const email = await responce.json()
-    //                 setEmail(email.user_email)
-    //                 console.log("Email: ", email.user_email)
-    //             } else {
-    //                 console.error('Email Not Found . Status:', responce.status);
-    //                 const errorMessage = await responce.text();
-    //                 console.error('Error message:', errorMessage);
-    //             }
-    //         } catch (error) {
-    //             console.error('Error during login:', error);
-    //         }
-    //     }
-    //     fetchData();
-    // }, [studentId]);
-
 
     const updatePassword = async (e) => {
         e.preventDefault();

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '../../context/AppContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDollar, faGraduationCap, faPencil, faTrash, faUser, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faDollar, faGraduationCap, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
+import DashBoardTable from './DashBoardTable';
 
 import { Box } from '@mui/material';
 import './dasboard.scss';
@@ -88,8 +89,8 @@ const Dashboard = () => {
                             <h3 className="text-white">{totalNewStudent}</h3>
                             {/* <div className="progress mb-2 bg-white">
                               <div className="progress-bar progress-animated bg-light" style={{ width: "50%" }}></div>
-                            </div>
-                            <small>50% Increase in 25 Days</small> */}
+                            </div> */}
+                            <small>in a month</small>
                           </div>
                         </div>
                       </div>
@@ -174,7 +175,7 @@ const Dashboard = () => {
                       <div className="card-body">
                         <div className="table-responsive recentOrderTable">
                           <table className="table verticle-middle table-responsive-md">
-                            <thead>
+                            {/* <thead>
                               <tr>
                                 <th scope="col">No.</th>
                                 <th scope="col">Name</th>
@@ -200,8 +201,11 @@ const Dashboard = () => {
                                   <a href="#" className="btn btn-sm btn-danger"><FontAwesomeIcon icon={faTrash} /></a>
                                 </td>
                               </tr>
-                            </tbody>
+                            </tbody> */}
+                            <DashBoardTable />
+
                           </table>
+
                         </div>
                       </div>
                     </div>

@@ -4,6 +4,10 @@ const pool = require('../utils/db');
 
 showData.get('/studentDetails', async (req, res) => {
     try {
+        const studentDetails = await pool.query(`SELECT *
+        FROM student_login 
+        WHERE student_join_date >= CURRENT_DATE - INTERVAL '30' DAY;`);
+
         const totalStudent = await pool.query(`
             select count(student_id) from student_login
         `);
@@ -19,8 +23,9 @@ showData.get('/studentDetails', async (req, res) => {
         const totalStudents = totalStudent.rows[0].count;
         const totalNewStudents = totalNewStudent.rows[0].count;
         const totalcountCourses = countCourses.rows[0].count;
+        const allStudent = studentDetails.rows
 
-        res.json({ message: "success", totalStudents, totalNewStudents, totalcountCourses });
+        res.json({ message: "success", totalStudents, totalNewStudents, totalcountCourses, allStudent });
 
     } catch (err) {
         console.error(err.message);
@@ -65,7 +70,6 @@ showData.get('/CourseDetail', async (req, res) => {
         `);
 
         const instructId = coursesinstructId.rows.map(coursesinstructId => coursesinstructId.instructor_id);
-        console.log('instructId: ', instructId)
 
         const instructorNames = [];
 
@@ -79,9 +83,6 @@ showData.get('/CourseDetail', async (req, res) => {
                 instructorNames.push({ instructorId, instructorName });
             }
         }
-
-        console.log(instructorNames)
-
         const coursesDetails = courses.rows;
 
         res.json({ message: "success", coursesDetails, instructorNames });
@@ -91,9 +92,9 @@ showData.get('/CourseDetail', async (req, res) => {
         res.status(500).json('Server Error');
     }
 });
+
 showData.get('/viewCourse/:courseId', async (req, res) => {
     const courseId = req.params.courseId;
-    console.log('courseId: ', courseId);
     try {
         const coursesDetails = await pool.query(`
             select * from courses where course_id = $1
@@ -105,10 +106,8 @@ showData.get('/viewCourse/:courseId', async (req, res) => {
         `);
 
         const instructId = coursesinstructId.rows.map(coursesinstructId => coursesinstructId.instructor_id);
-        console.log('instructId: ', instructId)
 
         const instructorNames = [];
-
         for (const instructorId of instructId) {
             const instructorNameQuery = await pool.query(`
                 SELECT instructor_name FROM instructors WHERE instructor_id = $1;
@@ -130,7 +129,7 @@ showData.get('/viewCourse/:courseId', async (req, res) => {
 
 showData.get('/viewInstructors/:instructId', async (req, res) => {
     const instructId = req.params.instructId;
-    console.log('instructId: ', instructId);
+
     try {
         const instructorsDetails = await pool.query(`
             select * from instructors where instructor_id = $1
@@ -148,8 +147,6 @@ showData.get('/viewInstructors/:instructId', async (req, res) => {
 
 showData.post('/viewsData', async (req, res) => {
     const studentId = req.body.studentId;
-
-    console.log('studentId viewsData:', studentId);
 
     try {
 
@@ -181,8 +178,6 @@ showData.post('/viewsData', async (req, res) => {
 showData.post('/adminViewsData', async (req, res) => {
     const adminId = req.body.adminId;
 
-    // console.log('adminId viewsData:', adminId);
-
     try {
 
         const adminUser = await pool.query(`SELECT * FROM admin_login where admin_id = $1`, [adminId]);
@@ -195,10 +190,6 @@ showData.post('/adminViewsData', async (req, res) => {
 
         const adminDetails = await pool.query(`SELECT * FROM admin_details WHERE admin_details_admin_id = $1`, [adminId]);
 
-
-        // console.log(adminDetails);
-
-
         const adminMobileNumber = adminDetails.rows[0].admin_details_mobile;
         const adminStreet = adminDetails.rows[0].admin_details_street;
         const adminCity = adminDetails.rows[0].admin_details_city;
@@ -206,15 +197,13 @@ showData.post('/adminViewsData', async (req, res) => {
         const adminZipCode = adminDetails.rows[0].admin_details_zip_code;
         const adminCountry = adminDetails.rows[0].admin_details_country;
 
-
         res.json({ adminEmail, adminFirstName, adminLastName, adminLastLogin, adminCreatedOn, adminMobileNumber, adminStreet, adminCity, adminState, adminZipCode, adminCountry });
 
     } catch (error) {
         console.error('Error fetching image from database:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
-
-})
+});
 
 
 module.exports = showData;

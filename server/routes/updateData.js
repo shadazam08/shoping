@@ -39,7 +39,6 @@ const adminUpload = multer({
 
 updateData.put('/updateInstructor/:instructId', async (req, res) => {
     const instructId = req.params.instructId;
-    console.log('instructId for update: ', instructId)
     const { status } = req.body;
 
     try {
@@ -66,7 +65,6 @@ updateData.put('/updateInstructor/:instructId', async (req, res) => {
 
 updateData.put('/updateCourse/:courseId', async (req, res) => {
     const courseId = req.params.courseId;
-    console.log('instructId for update: ', courseId)
     const { status } = req.body;
 
     try {
@@ -94,8 +92,6 @@ updateData.put('/updateCourse/:courseId', async (req, res) => {
 updateData.delete('/deleteInstructors/:instructId', async (req, res) => {
     const { instructId } = req.params;
 
-    console.log('instructId for Delete: ', instructId)
-
     try {
         // Perform the deletion based on the instructor ID
         const deleteQuery = await pool.query(`DELETE FROM instructors WHERE instructor_id = $1`, [instructId]);
@@ -111,10 +107,9 @@ updateData.delete('/deleteInstructors/:instructId', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 updateData.delete('/deleteCourse/:courseId', async (req, res) => {
     const { courseId } = req.params;
-
-    console.log('instructId for Delete: ', courseId)
 
     try {
         // Perform the deletion based on the instructor ID
@@ -132,14 +127,11 @@ updateData.delete('/deleteCourse/:courseId', async (req, res) => {
     }
 })
 
-
 updateData.post('/studentDetails', async (req, res) => {
     const { studentId, address, cities, states, country, zipCode, firstName, lastName, phone } = req.body;
     try {
 
         const userSelect = await pool.query(`SELECT * FROM student_login where student_id = $1`, [studentId]);
-
-        console.log('userSelect: ', userSelect);
 
         if (userSelect.rows.length === 1) {
             // res.status(401).json({ message: 'id All Ready Exits !' });
@@ -156,8 +148,6 @@ updateData.post('/studentDetails', async (req, res) => {
 
 updateData.get('/getImage', async (req, res) => {
     const studentId = req.query.studentId;
-
-    console.log("studentId: ", studentId);
 
     try {
         const result = await pool.query('SELECT student_images FROM student_login WHERE student_id = $1', [studentId]);
@@ -188,7 +178,7 @@ updateData.post('/profileImage', upload.single('file'), async (req, res) => {
         }
 
         const { filename, path, mimetype } = req.file;
-        console.log('Uploaded File:', { filename, path, mimetype });
+        // console.log('Uploaded File:', { filename, path, mimetype });
 
         const imageUrl = `${req.file.filename}`;
 
@@ -232,6 +222,7 @@ updateData.post('/checkOldPassword', async (req, res) => {
     }
 
 });
+
 updateData.post('/updatePassword', async (req, res) => {
 
     const { studentsEmail, newPassword } = req.body;
@@ -261,14 +252,12 @@ updateData.post('/updatePassword', async (req, res) => {
 updateData.get('/getAdminImage', async (req, res) => {
     const adminId = req.query.adminId;
 
-    console.log("getAdminImage adminId: ", adminId);
-
     try {
         const result = await pool.query('SELECT admin_details_images FROM admin_details WHERE admin_details_admin_id = $1', [adminId]);
 
         if (result.rows.length > 0) {
             const imageData = result.rows[0].admin_details_images;
-            res.setHeader('Content-Type', 'image/jpeg'); // Adjust the content type based on your image type
+            res.setHeader('Content-Type', 'image/jpeg'); 
             res.json(imageData);
         } else {
             res.status(404).json({ success: false, message: 'Image not found for the specified user ID' });
@@ -286,8 +275,6 @@ updateData.post('/updateAdminDetails', async (req, res) => {
         const userSelect = await pool.query(`SELECT * FROM admin_login where admin_id = $1`, [adminId]);
 
         const adminSelect = await pool.query(`SELECT * FROM admin_details where admin_details_admin_id = $1`, [adminId]);
-
-        console.log('userSelect: ', userSelect);
 
         if (userSelect.rows.length === 1) {
             await pool.query(`UPDATE admin_login SET admin_first_name = $1, admin_last_name = $2 WHERE admin_id = $3`, [firstName, lastName, adminId])
@@ -311,8 +298,6 @@ updateData.post('/updateAdminDetails', async (req, res) => {
 updateData.post('/adminProfileImage', adminUpload.single('file'), async (req, res) => {
     try {
         const adminId = req.body.adminId;
-
-        console.log('adminProfileImage : ', adminId)
         if (!adminId) {
             return res.status(400).json({ success: false, message: 'Admin Id is required' });
         }
@@ -322,7 +307,6 @@ updateData.post('/adminProfileImage', adminUpload.single('file'), async (req, re
         }
 
         const { filename, path, mimetype } = req.file;
-        console.log('Uploaded File:', { filename, path, mimetype });
 
         const imageUrl = `${req.file.filename}`;
 

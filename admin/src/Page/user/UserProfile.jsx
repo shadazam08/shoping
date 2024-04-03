@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Avatar, Box, Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { Alert, Button, Card, Form, Modal } from "react-bootstrap";
 import { useAuth } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faAt,
     faBroom,
-    faEdit,
     faLock,
     faMap,
     faSave,
