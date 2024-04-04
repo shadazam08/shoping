@@ -3,7 +3,6 @@
         {
             "name": "tutorial",
             "script": "./index.js",
-            "exec_interpreter": "node",
             "watch": true,
             "ignore_watch": [
                 "node_modules"
