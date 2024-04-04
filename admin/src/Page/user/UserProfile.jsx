@@ -4,13 +4,7 @@ import { Alert, Button, Card, Form, Modal } from "react-bootstrap";
 import { useAuth } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faAt,
-    faBroom,
-    faLock,
-    faMap,
-    faSave,
-} from "@fortawesome/free-solid-svg-icons";
+import { faAt, faBroom, faLock, faMap, faSave } from "@fortawesome/free-solid-svg-icons";
 import userDefaultImage from "../../assets/images/21104.png";
 import "./userProfile.scss";
 import ChangePassword from "../user/ChangePassword/ChangePassword";
