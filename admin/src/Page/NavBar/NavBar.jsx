@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Avatar, CssBaseline, Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
 import { AccountCircle, CastForEducation, LibraryBooks, Logout, SpaceDashboard } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -6,15 +6,14 @@ import { useTheme } from '@mui/material/styles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useAuth } from '../../context/AppContext';
-import userDefaultImage from '../../assets/images/21104.png'
+import userDefaultImage from '../../assets/images/21104.png';
 
 const NavBar = () => {
     const theme = useTheme();
     const { open, setOpen, drawerWidth, DrawerHeader, AppBar, logout, serverIP, serverPort } = useAuth();
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [viewImages, setImages] = useState();
-    const adminId = localStorage.getItem('adminId')
-
+    const adminId = localStorage.getItem('adminId');
 
     useEffect(() => {
 
@@ -55,7 +54,6 @@ const NavBar = () => {
         if (page && typeof page === 'string') {
             window.location.href = page;
         }
-
     };
 
     const handleLogout = (urlpage) => {
@@ -64,7 +62,6 @@ const NavBar = () => {
             window.location.href = urlpage;
         }
     }
-
 
     return (
         <>

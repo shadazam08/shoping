@@ -11,7 +11,6 @@ const AddCourses = () => {
     const [error, setError] = useState('')
     const [msgSuccess, setMsgSuccess] = useState('');
     const [instructors, setInstructors] = useState([]);
-    // const [userData, setUserData] = useState([]);
     const [formData, setFormData] = useState({
         course_name: '',
         course_description: '',
@@ -27,20 +26,15 @@ const AddCourses = () => {
             const responce = await fetch(`http://${serverIP}:${serverPort}/showData/instructorsDetails`);
             const parseRes = await responce.json();
             if (parseRes.message === 'success') {
-
                 setInstructors(parseRes.instructorsDetails);
-                console.log('fetchInstructors: ', parseRes.instructorsDetails)
-
             } else {
                 console.error('Course Insert failed. Status:', responce.status);
                 const errorMessage = await responce.text();
                 console.error('Error message:', errorMessage);
             }
-
         }
-
         fetchInstructors();
-    }, [])
+    }, [serverIP, serverPort]);
 
     const handleChange = (event, date, names) => {
 
@@ -67,11 +61,10 @@ const AddCourses = () => {
 
     const submitCourse = async (event) => {
         event.preventDefault();
-        const { course_end_date, course_start_date } = formData
+
+        const { course_end_date, course_start_date } = formData;
         const adjustedStartDate = new Date(course_start_date);
-
         adjustedStartDate.setDate(adjustedStartDate.getDate() + 1);
-
         const adjustedEndDate = new Date(course_end_date);
         adjustedEndDate.setDate(adjustedEndDate.getDate() + 1);
 
@@ -95,7 +88,7 @@ const AddCourses = () => {
                     course_fee: '',
                     instructor_id: ''
                 });
-            }, 2000)
+            }, 2000);
             return;
         }
         try {
@@ -126,7 +119,7 @@ const AddCourses = () => {
                         instructor_id: ''
 
                     });
-                }, 2000)
+                }, 2000);
 
             } else if (parseRes.message === 'Allready Exits') {
                 setError('This course Allready Exits');
@@ -141,9 +134,7 @@ const AddCourses = () => {
         } catch (error) {
             console.error('Error during Inser:', error);
         }
-        console.log('Submitted data:', formData);
-    }
-
+    };
 
     return (
         <Box sx={{ flexGrow: 1, display: 'flex' }}>
@@ -250,32 +241,10 @@ const AddCourses = () => {
                             </Button>
                         </Box>
                     </form>
-
-                    {/* <Box sx={{ display: 'flex', marginTop: 4 }}>
-                        <div className="list-container-wrapper">
-                            <div className="list-table-container">
-                                <div className="title">
-                                    <h1>Course Data</h1>
-                                    <div className="add-new">
-                                        <Link
-                                            to="/dashboard/users/new"
-                                            className="add-new-btn"
-                                        >
-                                            Add New
-                                        </Link>
-                                    </div>
-                                </div>
-                                <CoreDataTable
-                                    rows={userData}
-                                    columns={userColumn.concat(actionColumn)}
-                                />
-                            </div>
-                        </div>
-                    </Box> */}
                 </Box>
             </Main>
         </Box>
-    )
-}
+    );
+};
 
 export default AddCourses

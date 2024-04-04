@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '../../context/AppContext';
 import { Box } from '@mui/material';
-import moment from 'moment'
-import CoreDataTable from '../../CoreDataTable/CoreDataTable'
 import { Delete, Visibility } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
+import moment from 'moment';
+import CoreDataTable from '../../CoreDataTable/CoreDataTable';
 
 const InstructorsList = () => {
   const { open, Main, DrawerHeader, serverIP, serverPort } = useAuth();
@@ -14,7 +14,7 @@ const InstructorsList = () => {
   const [messages, setMessage] = useState('');
   const history = useNavigate();
 
-  const fetchInstructorsList = async () => {
+  const fetchInstructorsList = useCallback(async () => {
     try {
       const response = await fetch(
         `http://${serverIP}:${serverPort}/showData/instructorsDetails`,
@@ -31,24 +31,21 @@ const InstructorsList = () => {
       const data = await response.json();
       const dataFetch = data.instructorsDetails
       const fetchCourseName = data.courseName;
-      // Add a unique 'id' property to each row using 'user_id'
+      // Add a unique 'id' property to each row using 'instructor_id'
       const userDataWithId = dataFetch.map((user) => ({
         ...user,
         id: user.instructor_id,
       }));
       setUserData(userDataWithId);
       setCourseNames(fetchCourseName);
-
-      console.log('fetchCourseName: ', fetchCourseName)
-      console.log('userDataWithId: ', userDataWithId)
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
-  }
+  }, [serverIP, serverPort])
 
   const handleViewClick = (event, instructId) => {
     event.preventDefault();
-    // Navigate to the user details page with the user ID
+    // Navigate to the user details page with the instructId
     history(`/dashboard/instructorsList/viewInstructors/${instructId}`);
   };
 
@@ -75,10 +72,8 @@ const InstructorsList = () => {
   }
 
   const userColumn = [
-    // { field: 'id', headerName: 'ID', width: 100, sortable: false },
     { field: 'instructor_name', headerName: 'Name', width: 200 },
     { field: 'instructor_email', headerName: 'Email', width: 200 },
-    // { field: 'course_duration_hours', headerName: 'Daliy Hours', width: 90 },
     { field: 'instructors_mobile', headerName: 'Mobile', width: 140 },
     {
       field: 'instructor_id',
@@ -91,7 +86,6 @@ const InstructorsList = () => {
       }
     },
     { field: 'instructors_join_date', headerName: 'Join Date', width: 110, renderCell: params => moment(params.row.instructors_join_date).format('DD-MM-YYYY') },
-    // { field: 'course_end_date', headerName: 'End Date', width: 110, renderCell: params => moment(params.row.course_end_date).format('DD-MM-YYYY') },
   ];
 
   const actionColumn = [
@@ -118,13 +112,13 @@ const InstructorsList = () => {
   ];
 
   const initialState = {
-    columns: [...userColumn, ...actionColumn], // Correct format: an array of column objects
+    columns: [...userColumn, ...actionColumn],
     rows: userData,
   };
 
   useEffect(() => {
     fetchInstructorsList();
-  }, [])
+  }, [fetchInstructorsList])
 
   return (
     <Box sx={{ flexGrow: 1, display: 'flex' }}>

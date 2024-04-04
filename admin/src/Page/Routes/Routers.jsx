@@ -20,7 +20,6 @@ import CoursesList from '../AddCourses/CoursesList';
 import ViewCourse from '../AddCourses/ViewCourse';
 import ViewInstructors from '../AddInstructors/ViewInstructors';
 
-
 const Routers = () => {
     const { isLoggedIn } = useAuth();
 

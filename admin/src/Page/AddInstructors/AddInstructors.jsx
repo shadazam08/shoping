@@ -1,19 +1,15 @@
-import React, { useState } from 'react'
-import { Alert, Box, Button, FormControl, InputLabel, OutlinedInput } from '@mui/material'
+import React, { useState } from 'react';
+import { Alert, Box, Button, FormControl, InputLabel, OutlinedInput } from '@mui/material';
 import { useAuth } from '../../context/AppContext';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Add } from '@mui/icons-material';
-
-// import CoreDataTable from '../../CoreDataTable/CoreDataTable';
-// import moment from 'moment'
 
 const AddInstructors = () => {
     const { Main, DrawerHeader, open, serverIP, serverPort } = useAuth();
     const [error, setError] = useState('')
     const [msgSuccess, setMsgSuccess] = useState('');
-    // const [userData, setUserData] = useState([]);
     const [formData, setFormData] = useState({
         instructor_name: '',
         instructor_email: '',
@@ -24,69 +20,6 @@ const AddInstructors = () => {
         instructors_zip_code: '',
         instructors_join_date: ''
     });
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await fetch(
-    //                 `http://${serverIP}:${serverPort}/showData/instructorsDetails`,
-    //                 {
-    //                     method: 'GET',
-    //                     mode: 'cors',
-    //                     headers: { 'Content-Type': 'application/json' },
-    //                 }
-    //             );
-    //             if (!response.ok) {
-    //                 throw new Error('Network response was not ok');
-    //             }
-
-    //             const data = await response.json();
-    //             const dataFetch = data.instructorsDetails
-    //             console.log('data: ', data.instructorsDetails)
-    //             // Add a unique 'id' property to each row using 'user_id'
-    //             const userDataWithId = dataFetch.map((user) => ({
-    //                 ...user,
-    //                 id: user.instructor_id,
-    //             }));
-    //             setUserData(userDataWithId);
-
-    //             console.log('userDataWithId: ', userDataWithId)
-    //         } catch (error) {
-    //             console.error('Error fetching user data:', error);
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, []);
-
-
-    // const userColumn = [
-    //     // { field: 'id', headerName: 'ID', width: 100, sortable: false },
-    //     { field: 'instructor_name', headerName: 'Name', width: 250 },
-    //     { field: 'instructor_email', headerName: 'Email ID', width: 250 },
-    //     { field: 'instructors_mobile', headerName: 'Mobile Number', width: 110 },
-    //     { field: 'instructors_state', headerName: 'State', width: 200, type: 'singleSelect', valueOptions: ['admin', 'scheduler', 'watcher'], editable: true },
-    //     { field: 'instructors_city', headerName: 'City', width: 150, type: 'singleSelect', editable: true },
-    //     { field: 'instructors_join_date', headerName: 'Joining Date', width: 120, renderCell: params => moment(params.row.instructors_join_date).format('DD-MM-YYYY') },
-    // ];
-
-
-    // const actionColumn = [
-    //     {
-    //         field: 'action',
-    //         headerName: 'Action',
-    //         width: 150,
-    //         sortable: false,
-    //         renderCell: () => {
-    //             return (
-    //                 <div className="cellWithAction">
-    //                     <div className="view-btn">View</div>
-    //                     <div className="delete-btn">Suspend</div>
-    //                 </div>
-    //             );
-    //         },
-    //     },
-    // ];
 
     const handleChange = (event, date) => {
         if (date !== undefined) {
@@ -103,13 +36,13 @@ const AddInstructors = () => {
         }
         setError('');
     };
+    
     const submitInstructor = async (event) => {
         event.preventDefault();
 
         const { instructors_join_date } = formData
         const adjustedJoinDate = new Date(instructors_join_date);
         adjustedJoinDate.setDate(adjustedJoinDate.getDate() + 1);
-        console.log('adjustedJoinDate: ', adjustedJoinDate)
 
         if (
             formData.instructor_name.trim() === '' ||
@@ -165,8 +98,7 @@ const AddInstructors = () => {
         } catch (error) {
             console.error('Error during Inser:', error);
         }
-        console.log('Submitted data:', formData);
-    }
+    };
 
     return (
         <Box sx={{ flexGrow: 1, display: 'flex' }}>
@@ -275,34 +207,11 @@ const AddInstructors = () => {
                                 <Add sx={{ ml: 1, my: 0.5 }} />
                             </Button>
                         </Box>
-
                     </form>
-
-                    {/* <Box sx={{ display: 'flex', marginTop: 4, width: { sm: '240px', md: '240px', xs: '240px' } }}>
-                        <div className="list-container-wrapper">
-                            <div className="list-table-container">
-                                <div className="title">
-                                    <h1>Instructor Data</h1>
-                                    <div className="add-new">
-                                        <Link
-                                            to="/dashboard/users/new"
-                                            className="add-new-btn"
-                                        >
-                                            Add New
-                                        </Link>
-                                    </div>
-                                </div>
-                                <CoreDataTable
-                                    rows={userData}
-                                    columns={userColumn.concat(actionColumn)}
-                                />
-                            </div>
-                        </div>
-                    </Box> */}
                 </Box>
             </Main>
         </Box>
-    )
-}
+    );
+};
 
 export default AddInstructors

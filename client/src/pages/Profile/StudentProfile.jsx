@@ -1,12 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Box, Grid } from '@mui/material'
+import React, { useState, useRef, useEffect } from 'react';
+import { Box, Grid } from '@mui/material';
 import { Alert, Button, Card, Form, Modal } from 'react-bootstrap';
 import { useAuth } from '../../context/AppContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAt, faBroom, faLock, faMap, faSave } from '@fortawesome/free-solid-svg-icons';
-import userDefaultImage from '../../assets/images/21104.png'
+import userDefaultImage from '../../assets/images/21104.png';
 import './student.scss';
-import ChangePassword from '../ChangePassword/ChangePassword'
+import ChangePassword from '../ChangePassword/ChangePassword';
 
 const StudentProfile = () => {
     const [showModal, setShowModal] = useState(false);
@@ -30,14 +30,10 @@ const StudentProfile = () => {
     const [uploadedImage, setUploadedImage] = useState(null);
     const formRef = useRef();
     const fileInputRef = useRef();
-    // const [loading, setLoading] = useState(true);
     const { DrawerHeader, Main, serverIP, serverPort } = useAuth();
+    const studentId = localStorage.getItem('studentId');
 
     useEffect(() => {
-        // const timeout = setTimeout(() => {
-        //     setLoading(false);
-        // }, 2000);
-
         const handleClickOutside = (event) => {
             if (formRef.current && !formRef.current.contains(event.target)) {
                 setClickedInput(null);
@@ -46,15 +42,13 @@ const StudentProfile = () => {
         document.addEventListener('click', handleClickOutside);
         return () => {
             document.removeEventListener('click', handleClickOutside);
-            // clearTimeout(timeout)
         };
     }, []);
 
 
     const updateAddress = async (e) => {
         try {
-            const studentId = localStorage.getItem('studentId')
-            const body = { studentId, address, cities, states, country, zipCode, firstName, lastName, phone }
+            const body = { studentId, address, cities, states, country, zipCode, firstName, lastName, phone };
             const responce = await fetch(`http://${serverIP}:${serverPort}/updateData/studentDetails`, {
                 method: 'POST',
                 mode: 'cors',
@@ -63,29 +57,26 @@ const StudentProfile = () => {
             });
             if (responce.ok) {
                 const data = await responce.json();
-                console.log(data.message)
                 if (data.message === 'update success full') {
                     setshowAlert(true);
                     setTimeout(() => {
                         setshowAlert(false);
                     }, 2000);
                 }
-
             } else {
                 console.error('Address upload failed. Status:', responce.status);
             }
         } catch (err) {
             console.error(err.message);
         }
-
     }
     useEffect(() => {
-        const studentId = localStorage.getItem('studentId')
+        
         const fetchImageData = async (studentId) => {
             try {
                 const responce = await fetch(`http://${serverIP}:${serverPort}/updateData/getImage?studentId=${studentId}`, {
                     method: 'GET',
-                })
+                });
                 if (responce.ok) {
                     const dataImage = await responce.json();
                     // console.log(dataImage);
@@ -118,7 +109,6 @@ const StudentProfile = () => {
                     setPhone(data.studentMobileNumber);
                     setCreated(data.studentCreatedOn);
                     setLastLogin(data.studentLastLogin);
-
                     setAddress(data.studentStreet)
                     setCities(data.studentCity)
                     setStates(data.studentState)
@@ -146,8 +136,8 @@ const StudentProfile = () => {
                     });
 
                     if (response.ok) {
-                        const imageUrl = await response.json();
-                        console.log("Image: ", imageUrl);
+                        // const imageUrl = await response.json();
+                        // console.log(imageUrl);
                     } else {
                         console.error('Image upload failed. Status:', response.status);
                     }
@@ -162,16 +152,9 @@ const StudentProfile = () => {
         fetchImageData(studentId);
         uploadImage();
         fetchData();
-    }, [uploadedImage]);
+    }, [uploadedImage, studentId,serverIP, serverPort]);
 
     useEffect(() => {
-        // console.log('Address:', address);
-        // console.log('City:', cities);
-        // console.log('State:', states);
-        // console.log('Country:', country);
-        // console.log('Zip Code:', zipCode);
-        // console.log('firstName:', firstName);
-        // console.log('lastName:', lastName);
     }, [address, cities, states, country, zipCode, firstName, lastName]);
 
     const handleInputClick = (inputId) => {
@@ -436,7 +419,6 @@ const StudentProfile = () => {
                                                 </Form.Group>
                                             </Form>
                                         </Card.Text>
-                                        {/* <Button variant="primary">Go somewhere</Button> */}
                                     </Card.Body>
                                 </Card>
                             </Grid>
@@ -558,7 +540,6 @@ const StudentProfile = () => {
                                                 </Form.Group>
                                             </Form>
                                         </Card.Text>
-                                        {/* <Button variant="primary">Go somewhere</Button> */}
                                     </Card.Body>
                                 </Card>
                             </Grid>
@@ -567,31 +548,7 @@ const StudentProfile = () => {
                 </Box>
             </Main>
         </Box>
-    )
-}
+    );
+};
 
 export default StudentProfile
-
-
-
-{/* <Form.Group className="mb-3 lastName" controlId="formBasicLastName">
-                                                        <Form.Label className='mt-2'>Gender</Form.Label>
-                                                        <Form.Control
-                                                            type="text"
-                                                            style={{
-                                                                borderBottom: clickedInput === 'gender' ? '2px solid #007BFF' : '2px solid #000',
-                                                                backgroundColor: '#F5F5F5',
-                                                                color: '#000',
-                                                                borderTop: 'none',
-                                                                borderLeft: 'none',
-                                                                borderRight: 'none',
-                                                                borderRadius: '0',
-                                                                transition: 'none'
-                                                            }}
-                                                            onClick={() => handleInputClick('gender')}
-                                                            className='disableHover text-capitalize'
-                                                            value={gender}
-                                                            disabled
-                                                            readOnly
-                                                        />
-                                                    </Form.Group> */}

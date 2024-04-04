@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useAuth } from '../../context/AppContext';
 import { Box } from '@mui/material';
 import { useParams } from 'react-router-dom';
@@ -11,16 +11,22 @@ const ViewInstructors = () => {
     const [isDisabled, setIsDisabled] = useState(false);
     const [messages, setMessage] = useState('');
 
-    const fetchInstructorsDetails = async () => {
+    // const fetchInstructorsDetails = async () => {
+    //     const response = await fetch(`http://${serverIP}:${serverPort}/showData/viewInstructors/${instructId}`);
+    //     const parseRes = await response.json();
+    //     const dataFetch = parseRes.instructorsDetail;
+
+    //     setInstructDetails(dataFetch)
+    //     setIsDisabled(dataFetch.status === 'disable');
+    // }
+    const fetchInstructorsDetails = useCallback(async () => {
         const response = await fetch(`http://${serverIP}:${serverPort}/showData/viewInstructors/${instructId}`);
         const parseRes = await response.json();
         const dataFetch = parseRes.instructorsDetail;
 
         setInstructDetails(dataFetch)
         setIsDisabled(dataFetch.status === 'disable');
-        console.log('parseRes: ', dataFetch.status)
-
-    }
+    }, [serverIP, serverPort, instructId]);
 
     const updateInstructorStatus = async (status) => {
         try {
@@ -47,7 +53,7 @@ const ViewInstructors = () => {
 
     useEffect(() => {
         fetchInstructorsDetails();
-    }, [instructId])
+    }, [fetchInstructorsDetails])
 
     return (
         <Box sx={{ flexGrow: 1, display: 'flex' }}>

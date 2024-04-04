@@ -56,15 +56,12 @@ export const AuthProvider = ({ children }) => {
 
     const serverPort = 5000;
     const serverIP = window.location.hostname === 'localhost' ? 'localhost' : '192.168.1.7';
-    // const serverIP = `192.168.1.7`;
 
     useEffect(() => {
         const storedToken = localStorage.getItem('adminToken');
-
         if (storedToken) {
             setIsLoggedIn(true);
         }
-
     }, []);
 
     const login = (adminToken) => {
@@ -79,10 +76,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.clear()
         sessionStorage.clear();
         setIsLoggedIn(false);
-        // history('/login');
-
     };
-
 
     return (
         <AppContext.Provider value={{ serverPort, serverIP, isLoggedIn, login, logout, open, setOpen, drawerWidth, Main, DrawerHeader, AppBar }}>

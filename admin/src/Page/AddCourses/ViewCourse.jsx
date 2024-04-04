@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '../../context/AppContext';
 import { Box } from '@mui/material';
 import { useParams } from 'react-router-dom';
@@ -12,20 +12,15 @@ const ViewCourse = () => {
     const [isDisabled, setIsDisabled] = useState(false);
     const [messages, setMessage] = useState('');
 
-
-    const fetchCourseDetails = async () => {
+    const fetchCourseDetails = useCallback(async () => {
         const response = await fetch(`http://${serverIP}:${serverPort}/showData/viewCourse/${courseId}`);
         const parseRes = await response.json();
         const dataFetch = parseRes.courseDetail;
         const fetchInstructorName = parseRes.instructorNames;
         setCourseDetails(dataFetch);
         setIsDisabled(dataFetch.status === 'disable');
-
-        console.log('dataFetch: ', dataFetch.status)
-        console.log('fetchInstructorName: ', fetchInstructorName)
-        setInstructName(fetchInstructorName)
-
-    }
+        setInstructName(fetchInstructorName);
+    }, [serverIP, serverPort, courseId])
 
     const updateCourseStatus = async (status) => {
         try {
@@ -50,10 +45,9 @@ const ViewCourse = () => {
         }
     }
 
-
     useEffect(() => {
         fetchCourseDetails();
-    }, [courseId])
+    }, [fetchCourseDetails])
 
     return (
         <Box sx={{ flexGrow: 1, display: 'flex' }}>

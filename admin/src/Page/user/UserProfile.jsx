@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { Box, Grid } from "@mui/material";
 import { Alert, Button, Card, Form, Modal } from "react-bootstrap";
 import { useAuth } from "../../context/AppContext";
-import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAt, faBroom, faLock, faMap, faSave } from "@fortawesome/free-solid-svg-icons";
 import userDefaultImage from "../../assets/images/21104.png";
@@ -32,7 +31,7 @@ const UserProfile = () => {
     const formRef = useRef();
     const fileInputRef = useRef();
     const { open, Main, DrawerHeader, serverIP, serverPort } = useAuth();
-    const history = useNavigate();
+    const adminId = localStorage.getItem("adminId");
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -49,18 +48,8 @@ const UserProfile = () => {
 
     const updateAddress = async (e) => {
         try {
-            const adminId = localStorage.getItem("adminId");
-            const body = {
-                adminId,
-                address,
-                cities,
-                states,
-                country,
-                zipCode,
-                firstName,
-                lastName,
-                phone,
-            };
+            const body = { adminId, address, cities, states, country, zipCode, firstName, lastName, phone };
+
             const responce = await fetch(
                 `http://${serverIP}:${serverPort}/updateData/updateAdminDetails`,
                 {
@@ -87,7 +76,6 @@ const UserProfile = () => {
         }
     };
     useEffect(() => {
-        const adminId = localStorage.getItem("adminId");
         const fetchImageData = async (adminId) => {
             try {
                 const responce = await fetch(
@@ -181,13 +169,6 @@ const UserProfile = () => {
     }, [uploadedImage]);
 
     useEffect(() => {
-        // console.log('Address:', address);
-        // console.log('City:', cities);
-        // console.log('State:', states);
-        // console.log('Country:', country);
-        // console.log('Zip Code:', zipCode);
-        // console.log('firstName:', firstName);
-        // console.log('lastName:', lastName);
     }, [address, cities, states, country, zipCode, firstName, lastName]);
 
     const handleInputClick = (inputId) => {
@@ -210,10 +191,6 @@ const UserProfile = () => {
         setEditMode(false);
     };
 
-    // const handleLogout = () => {
-    //     logout();
-    //     history("/login"); // Navigate to login page after logout
-    // };
     return (
         <Box sx={{ flexGrow: 1, display: "flex" }}>
             <Main open={open}>
@@ -392,7 +369,6 @@ const UserProfile = () => {
                                                 Email: <span className="fw-bold">{email}</span>
                                             </p>
                                         </div>
-                                        {/* <Card.Title>Special title treatment</Card.Title> */}
                                         <Card.Text>
                                             <Form className="nameForm">
                                                 <Form.Group
@@ -519,7 +495,6 @@ const UserProfile = () => {
                                                 </Form.Group>
                                             </Form>
                                         </Card.Text>
-                                        {/* <Button variant="primary">Go somewhere</Button> */}
                                     </Card.Body>
                                 </Card>
                             </Grid>
@@ -684,7 +659,6 @@ const UserProfile = () => {
                                                 </Form.Group>
                                             </Form>
                                         </Card.Text>
-                                        {/* <Button variant="primary">Go somewhere</Button> */}
                                     </Card.Body>
                                 </Card>
                             </Grid>

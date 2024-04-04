@@ -27,27 +27,21 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
 }));
 
-
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [open, setOpen] = useState(false);
-
     const serverPort = 5000;
     const serverIP = window.location.hostname === 'localhost' ? 'localhost' : '192.168.1.7';
 
-
     useEffect(() => {
         const storedToken = localStorage.getItem('studentToken');
-
         if (storedToken) {
             setIsLoggedIn(true);
         }
-
     }, []);
 
     const login = (studentToken) => {
@@ -56,22 +50,18 @@ export const AuthProvider = ({ children }) => {
     }
 
     const logout = () => {
-        // Perform your logout logic here
         localStorage.removeItem('token');
         localStorage.removeItem('studentId');
         localStorage.clear()
         sessionStorage.clear();
         setIsLoggedIn(false);
-        // history('/login');
 
     };
-
 
     return (
         <AppContext.Provider value={{ serverPort, serverIP, isLoggedIn, login, logout, open, setOpen, Main, DrawerHeader }}>
             {children}
         </AppContext.Provider>
-
     )
 }
 

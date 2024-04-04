@@ -3,7 +3,6 @@ const showNavBar = (isLoggedIn) => {
     const viewCourse = /^\/dashboard\/coursesList\/viewCourse\/\d+$/;
     const viewInstructors = /^\/dashboard\/instructorsList\/viewInstructors\/\d+$/;
 
-
     return (
         isLoggedIn && (
             window.location.pathname === '' ||
@@ -19,7 +18,7 @@ const showNavBar = (isLoggedIn) => {
             viewCourse.test(window.location.pathname) ||
             viewInstructors.test(window.location.pathname)
         )
-    )
+    );
 }
 
 export { showNavBar }

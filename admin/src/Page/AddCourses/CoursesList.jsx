@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '../../context/AppContext';
 import { Box } from '@mui/material';
-import moment from 'moment'
-import CoreDataTable from '../../CoreDataTable/CoreDataTable'
-// import '../../table.scss';
 import { Delete, Visibility } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
+import moment from 'moment';
+import CoreDataTable from '../../CoreDataTable/CoreDataTable';
 
 const CoursesList = () => {
     const { open, Main, DrawerHeader, serverIP, serverPort } = useAuth();
@@ -15,7 +14,7 @@ const CoursesList = () => {
     const [messages, setMessage] = useState('');
     const history = useNavigate();
 
-    const fetchCourseList = async () => {
+    const fetchCourseList = useCallback(async () => {
         try {
             const response = await fetch(
                 `http://${serverIP}:${serverPort}/showData/CourseDetail`,
@@ -32,24 +31,21 @@ const CoursesList = () => {
             const data = await response.json();
             const dataFetch = data.coursesDetails
             const fetchInstructorName = data.instructorNames;
-            // Add a unique 'id' property to each row using 'user_id'
+            // Add a unique 'id' property to each row using 'course_id'
             const userDataWithId = dataFetch.map((user) => ({
                 ...user,
                 id: user.course_id,
             }));
             setUserData(userDataWithId);
             setInstructorNames(fetchInstructorName);
-
-            console.log('userDataWithId: ', userDataWithId)
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
-    }
+    }, [serverIP, serverPort])
 
     useEffect(() => {
-
         fetchCourseList();
-    }, []);
+    }, [fetchCourseList]);
 
     const handleViewClick = (event, courseId) => {
         event.preventDefault();
@@ -70,21 +66,17 @@ const CoursesList = () => {
             if (data.message === 'Deletion Successful') {
                 setMessage(`Delete Successful`);
                 setTimeout(() => setMessage(''), 3000);
-                
             } else if (data.message === 'Deletion Failed') {
                 setMessage('Deletion Failed');
             }
-
         } catch (error) {
             console.error('Error fetching Deletion data:', error)
         }
     }
 
     const userColumn = [
-        // { field: 'id', headerName: 'ID', width: 100, sortable: false },
         { field: 'course_name', headerName: 'Course Name', width: 200 },
         { field: 'course_description', headerName: 'Desc', width: 200 },
-        // { field: 'course_duration_hours', headerName: 'Daliy Hours', width: 90 },
         {
             field: 'instructor_id',
             headerName: 'Instructor Name',
@@ -123,7 +115,7 @@ const CoursesList = () => {
     ];
 
     const initialState = {
-        columns: [...userColumn, ...actionColumn], // Correct format: an array of column objects
+        columns: [...userColumn, ...actionColumn],
         rows: userData,
     };
     return (

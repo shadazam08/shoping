@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import './Register.scss'
 import { useAuth } from '../../context/AppContext';
 import { Navigate } from 'react-router-dom';
+import './Register.scss'
 
 const Register = () => {
     const [submitted, setSubmitted] = useState(false);
     const [valid, setValid] = useState(false);
-    const { serverPort, serverIP } = useAuth()
+    const { serverPort, serverIP } = useAuth();
     const [errorMsg, setErrorMsg] = useState(false);
     const [values, setValues] = useState({
         firstName: "",
@@ -18,7 +18,6 @@ const Register = () => {
     });
 
     const handleInputChange = (event) => {
-        /* event.persist(); NO LONGER USED IN v.17*/
         event.preventDefault();
 
         const { name, value } = event.target;
@@ -28,14 +27,11 @@ const Register = () => {
             setErrorMsg(false);
         }
 
-
         setValues((values) => ({
             ...values,
             [name]: value
         }));
     };
-
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();

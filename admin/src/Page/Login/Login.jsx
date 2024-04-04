@@ -1,26 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import {
-    Box,
-    Button,
-    FormControl,
-    IconButton,
-    Input,
-    InputAdornment,
-    InputLabel,
-    MenuItem,
-    Select
-} from '@mui/material';
-import {
-    AccountCircle,
-    LockOpen,
-    LoginOutlined,
-    Visibility,
-    VisibilityOff
-} from '@mui/icons-material';
+import React, { useEffect, useState } from 'react';
+import { Box, Button, FormControl, IconButton, Input, InputAdornment, InputLabel, MenuItem, Select } from '@mui/material';
+import { AccountCircle, LockOpen, LoginOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAuth } from '../../context/AppContext';
-import Alert from 'react-bootstrap/Alert';
-import './login.scss'
 import { Navigate, useNavigate } from 'react-router-dom';
+import Alert from 'react-bootstrap/Alert';
+import './login.scss';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -38,7 +22,6 @@ const Login = () => {
         if (isLoggedIn) {
             history('/dashboard')
         }
-
     }, [isLoggedIn, history])
 
     const handleChange = (event) => {
@@ -65,7 +48,6 @@ const Login = () => {
             }, 2000)
             return;
         }
-        // You can perform further actions here, such as sending the data to a backend for authentication
 
         try {
             const response = await fetch(`http://${serverIP}:${serverPort}/authRoute/adminLogin`, {
@@ -82,8 +64,6 @@ const Login = () => {
                 const { adminToken, adminId } = parseRes;
                 localStorage.setItem('adminToken', adminToken);
                 localStorage.setItem('adminId', adminId);
-                console.log('Login successful');
-                // console.log('Submitted data:', formData);
                 // Reset form values
                 login(adminToken);
                 setTimeout(() => {
@@ -92,12 +72,10 @@ const Login = () => {
             } else {
                 if (parseRes.message === 'Invalid Email ID') {
                     // setLoginError('Email Id Invalid');
-
                 } else if (parseRes.message === 'Invalid Password') {
                     // setLoginError('Password Invalid');
                 } else if (parseRes.message === 'User is Disable') {
                     // setLoginError('User Is Disabled');
-
                 }
                 console.error('Login failed. Status:', response.status);
                 const errorMessage = await response.text();
@@ -106,9 +84,6 @@ const Login = () => {
         } catch (error) {
             console.error('Error during login:', error);
         }
-
-
-        console.log('Submitted data:', formData);
     }
     return (
         <>
@@ -145,7 +120,6 @@ const Login = () => {
                                         </IconButton>
                                     </InputAdornment>
                                 }
-
                             />
                         </FormControl>
                     </Box>
@@ -179,8 +153,7 @@ const Login = () => {
                 </Box>
             </form>
         </>
-
-    )
-}
+    );
+};
 
 export default Login

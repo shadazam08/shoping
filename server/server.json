@@ -3,12 +3,13 @@
         {
             "name": "tutorial",
             "script": "./index.js",
+            "exec_interpreter": "node",
             "watch": true,
             "ignore_watch": [
                 "node_modules"
             ],
             "instances": 1,
-            "exec_mode": "fork",
+            "exec_mode": "cluster",
             "env": {
                 "PGHOST": "localhost",
                 "PGDATABASE": "tutorial",
@@ -18,7 +19,12 @@
                 "PORTS": 5000,
                 "ENDPOINT_ID": "ep-billowing-hill-a5fcv8oo",
                 "SECRET": "SHADAZAM@#8750$89"
-            }
+            },
+            "log_date_format": "DD-MM-YYYY HH:mm",
+            "error_file": "./error/error.log",
+            "out_file": "./error/out.log",
+            "vizion": true,
+            "merge_logs": true
         }
     ]
 }

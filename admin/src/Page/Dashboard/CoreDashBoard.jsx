@@ -1,5 +1,4 @@
 import React from 'react';
-// import './coreDataTable.scss';
 import { DataGrid } from '@mui/x-data-grid';
 import './dasboard.scss';
 

@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AppContext';
 import moment from 'moment';
-import '../../table.scss'
 import CoreDashBoard from './CoreDashBoard';
-
+import '../../table.scss';
 
 const DashBoardTable = () => {
     const { serverIP, serverPort } = useAuth();
@@ -56,13 +55,12 @@ const DashBoardTable = () => {
 
     useEffect(() => {
         fetchInstructorsList();
-    }, [])
+    }, []);
     return (
         <div>
-
             <CoreDashBoard {...initialState} />
         </div>
-    )
-}
+    );
+};
 
 export default DashBoardTable

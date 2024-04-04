@@ -10,13 +10,12 @@ const updateData = require('./routes/updateData');
 
 const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, PORT, PORTS } = process.env;
 
-
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const corsOptions = {
-    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://192.168.1.11:3000', 'http://192.168.1.11:3001'],
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
