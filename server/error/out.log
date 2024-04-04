@@ -97,3 +97,9 @@
 04-04-2024 14:23: Connected to the database
 04-04-2024 14:23: Connected to the database
 04-04-2024 14:23: Connected to the database
+04-04-2024 14:29: [error] "2024-04-04T08:59:17.847Z"  "could not load plugin C:\\Users\\nabeel\\AppData\\Roaming\\npm\\node_modules\\pm2\\node_modules\\@pm2\\io\\build\\main\\census\\plugins\\pg of module pg. Error: Cannot read properties of null (reading 'client')"
+04-04-2024 14:29: Server is up and running on http://localhost:5000
+04-04-2024 14:29: [error] "2024-04-04T08:59:20.245Z"  "could not load plugin C:\\Users\\nabeel\\AppData\\Roaming\\npm\\node_modules\\pm2\\node_modules\\@pm2\\io\\build\\main\\census\\plugins\\pg of module pg. Error: Cannot read properties of null (reading 'client')"
+04-04-2024 14:29: Server is up and running on http://localhost:5000
+04-04-2024 14:29: [error] "2024-04-04T08:59:23.938Z"  "could not load plugin C:\\Users\\nabeel\\AppData\\Roaming\\npm\\node_modules\\pm2\\node_modules\\@pm2\\io\\build\\main\\census\\plugins\\pg of module pg. Error: Cannot read properties of null (reading 'client')"
+04-04-2024 14:29: Server is up and running on http://localhost:5000
