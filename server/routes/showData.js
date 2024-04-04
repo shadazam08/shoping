@@ -25,6 +25,8 @@ showData.get('/studentDetails', async (req, res) => {
         const totalcountCourses = countCourses.rows[0].count;
         const allStudent = studentDetails.rows
 
+        console.log('allStudent: ', allStudent);
+
         res.json({ message: "success", totalStudents, totalNewStudents, totalcountCourses, allStudent });
 
     } catch (err) {

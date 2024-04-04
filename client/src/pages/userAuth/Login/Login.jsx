@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../context/AppContext';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
 
 const Login = () => {
@@ -60,12 +60,11 @@ const Login = () => {
                 }, 2000);
             } else {
                 if (parseRes.message === 'Invalid Email ID') {
-                    setLoginError('Email Id Invalid');
+                    // setLoginError('Email Id Invalid');
                 } else if (parseRes.message === 'Invalid Password') {
-                    setLoginError('Password Invalid');
+                    // setLoginError('Password Invalid');
                 } else if (parseRes.message === 'User is Disable') {
-                    setLoginError('User Is Disabled');
-
+                    // setLoginError('User Is Disabled');
                 }
                 console.error('Login failed. Status:', response.status);
                 const errorMessage = await response.text();
@@ -98,7 +97,8 @@ const Login = () => {
                         value={formData.password}
                         onChange={handleChange}
                     />
-                    <a href="#">Forgot your password?</a>
+                    <Link to={'#'}>Forgot your password?</Link>
+                    {/* <a ></a> */}
                     <button>Sign In</button>
                 </form>
             </div>
