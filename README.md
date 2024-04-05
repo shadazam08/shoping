@@ -2,18 +2,18 @@
 
 ---
 
-## <!-- Live View [netflixColne](https://netflix-clone-nine-tawny.vercel.app/) -->
-
 <img alt="schermafbeelding 2017-09-27 om 23 08 12" src="5507-33665785.webp">
 
 ### We have used all these technologies which are shown below
 
-<!-- 1. **`ReactJs`**
+1. **`ReactJs`**
 2. **`Bootstrap`**
-3. **`Sass`**
-4. **`HTML`**
-5. **`Node`**
-6. **`Express`**
-7. **`PostgreSql`** -->
+3. **`react-Bootstrap`**
+4. **`MUI`**
+5. **`Sass`**
+6. **`HTML`**
+7. **`Node`**
+8. **`Express`**
+9. **`PostgreSql`**
 
 ---
