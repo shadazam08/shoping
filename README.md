@@ -4,7 +4,7 @@
 
 ## <!-- Live View [netflixColne](https://netflix-clone-nine-tawny.vercel.app/) -->
 
-<img width="100" alt="schermafbeelding 2017-09-27 om 23 08 12" src="5507-33665785.webp">
+<img alt="schermafbeelding 2017-09-27 om 23 08 12" src="5507-33665785.webp">
 
 ### We have used all these technologies which are shown below
 
