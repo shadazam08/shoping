@@ -4,7 +4,8 @@
 
 <img alt="schermafbeelding 2017-09-27 om 23 08 12" src="5507-33665785.webp">
 
-### We have used all these technologies which are shown below
+<!-- ### We have used all these technologies which are shown below -->
+## Below are the technologies we have used
 
 1. **`ReactJs`**
 2. **`Bootstrap`**
