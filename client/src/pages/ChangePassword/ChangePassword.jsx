@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap';
-import './changePassword.scss'
-import Alert from 'react-bootstrap/Alert';
 import { useAuth } from '../../context/AppContext';
-
+import Alert from 'react-bootstrap/Alert';
+import './changePassword.scss'
 
 const ChangePassword = () => {
     const [newPassword, setNewPassword] = useState('');
@@ -75,7 +74,8 @@ const ChangePassword = () => {
         setOldPassword('')
         setNewPassword('');
         setConfrimPassword('');
-    }
+    };
+
     return (
         <>
             {showAlert && <Alert variant='success' className='alertMessage'>Password Updated Successfully</Alert>}

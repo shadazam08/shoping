@@ -11,14 +11,6 @@ const ViewInstructors = () => {
     const [isDisabled, setIsDisabled] = useState(false);
     const [messages, setMessage] = useState('');
 
-    // const fetchInstructorsDetails = async () => {
-    //     const response = await fetch(`http://${serverIP}:${serverPort}/showData/viewInstructors/${instructId}`);
-    //     const parseRes = await response.json();
-    //     const dataFetch = parseRes.instructorsDetail;
-
-    //     setInstructDetails(dataFetch)
-    //     setIsDisabled(dataFetch.status === 'disable');
-    // }
     const fetchInstructorsDetails = useCallback(async () => {
         const response = await fetch(`http://${serverIP}:${serverPort}/showData/viewInstructors/${instructId}`);
         const parseRes = await response.json();

@@ -82,7 +82,6 @@ export const AuthProvider = ({ children }) => {
         <AppContext.Provider value={{ serverPort, serverIP, isLoggedIn, login, logout, open, setOpen, drawerWidth, Main, DrawerHeader, AppBar }}>
             {children}
         </AppContext.Provider>
-
     )
 }
 

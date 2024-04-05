@@ -42,7 +42,7 @@ const UserProfile = () => {
         document.addEventListener("click", handleClickOutside);
         return () => {
             document.removeEventListener("click", handleClickOutside);
-            // clearTimeout(timeout)
+
         };
     }, []);
 
@@ -76,6 +76,7 @@ const UserProfile = () => {
         }
     };
     useEffect(() => {
+
         const fetchImageData = async (adminId) => {
             try {
                 const responce = await fetch(
@@ -166,10 +167,7 @@ const UserProfile = () => {
         fetchImageData(adminId);
         uploadImage();
         fetchData();
-    }, [uploadedImage]);
-
-    useEffect(() => {
-    }, [address, cities, states, country, zipCode, firstName, lastName]);
+    }, [uploadedImage, address, cities, states, country, zipCode, firstName, lastName, serverIP, serverPort]);
 
     const handleInputClick = (inputId) => {
         setClickedInput((prevInput) => (prevInput === inputId ? null : inputId));

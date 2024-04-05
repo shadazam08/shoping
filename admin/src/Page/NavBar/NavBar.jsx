@@ -34,7 +34,7 @@ const NavBar = () => {
             }
         }
         fetchImageData(adminId);
-    }, [adminId])
+    }, [adminId, serverIP, serverPort]);
 
 
     const handleDrawerOpen = () => {
@@ -47,7 +47,7 @@ const NavBar = () => {
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
-    }
+    };
 
     const handleCloseUserMenu = (page) => {
         setAnchorElUser(null);
@@ -61,7 +61,7 @@ const NavBar = () => {
         if (urlpage && typeof urlpage === 'string') {
             window.location.href = urlpage;
         }
-    }
+    };
 
     return (
         <>

@@ -74,7 +74,8 @@ const ChangePassword = () => {
         setOldPassword('')
         setNewPassword('');
         setConfrimPassword('');
-    }
+    };
+    
     return (
         <>
             {showAlert && <Alert variant='success' className='alertMessage'>Password Updated Successfully</Alert>}

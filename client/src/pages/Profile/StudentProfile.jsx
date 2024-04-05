@@ -69,7 +69,8 @@ const StudentProfile = () => {
         } catch (err) {
             console.error(err.message);
         }
-    }
+    };
+    
     useEffect(() => {
         
         const fetchImageData = async (studentId) => {
@@ -152,10 +153,7 @@ const StudentProfile = () => {
         fetchImageData(studentId);
         uploadImage();
         fetchData();
-    }, [uploadedImage, studentId,serverIP, serverPort]);
-
-    useEffect(() => {
-    }, [address, cities, states, country, zipCode, firstName, lastName]);
+    }, [uploadedImage, studentId,serverIP, serverPort, address, cities, states, country, zipCode, firstName, lastName]);
 
     const handleInputClick = (inputId) => {
         setClickedInput((prevInput) => (prevInput === inputId ? null : inputId));

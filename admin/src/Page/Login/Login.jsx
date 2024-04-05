@@ -8,7 +8,8 @@ import './login.scss';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState('')
+    const [error, setError] = useState('');
+    const [loginError, setLoginError] = useState('');
     const [valid, setValid] = useState(false);
     const history = useNavigate();
     const { serverPort, serverIP, isLoggedIn, login } = useAuth()
@@ -40,7 +41,7 @@ const Login = () => {
     };
     const loginSubmit = async (event) => {
         event.preventDefault();
-        // Basic form validation (you can extend this)
+        // Form validation 
         if (formData.email.trim() === '' || formData.password.trim() === '' || formData.role.trim() === '') {
             setError('Please fill in all fields.');
             setTimeout(() => {
@@ -71,11 +72,11 @@ const Login = () => {
                 }, 2000);
             } else {
                 if (parseRes.message === 'Invalid Email ID') {
-                    // setLoginError('Email Id Invalid');
+                    setLoginError('Email Id Invalid');
                 } else if (parseRes.message === 'Invalid Password') {
-                    // setLoginError('Password Invalid');
+                    setLoginError('Password Invalid');
                 } else if (parseRes.message === 'User is Disable') {
-                    // setLoginError('User Is Disabled');
+                    setLoginError('User Is Disabled');
                 }
                 console.error('Login failed. Status:', response.status);
                 const errorMessage = await response.text();
@@ -84,7 +85,8 @@ const Login = () => {
         } catch (error) {
             console.error('Error during login:', error);
         }
-    }
+    };
+
     return (
         <>
             {valid && <Navigate to="/dashboard" />}
@@ -92,6 +94,7 @@ const Login = () => {
                 <Box sx={{ '& > :not(style)': { m: 1 } }} >
                     <h4 className='loginHeader'>Admin Login</h4>
                     {error && <Alert variant='danger' className='alertMessage'>{error} </Alert>}
+                    {loginError && <Alert variant='danger' className='alertMessage'>{loginError}</Alert>}
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }} className='mb-4 mt-4' >
                         <AccountCircle sx={{ mr: 1, my: 0.5 }} color='success' />
                         <FormControl variant="standard" color='success' sx={{ minWidth: 240 }}>

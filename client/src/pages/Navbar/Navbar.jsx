@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { AppBar, Avatar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import logoImage from '../../assets/images/logo.png';
 import { useAuth } from '../../context/AppContext';
+import logoImage from '../../assets/images/logo.png';
+import MenuIcon from '@mui/icons-material/Menu';
 import userDefaultImage from '../../assets/images/21104.png'
 
 const Navbar = () => {
@@ -29,7 +29,7 @@ const Navbar = () => {
             }
         }
         fetchImageData(studentId);
-    }, [serverIP, serverPort, studentId])
+    }, [serverIP, serverPort, studentId]);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);

@@ -49,7 +49,7 @@ const CoursesList = () => {
 
     const handleViewClick = (event, courseId) => {
         event.preventDefault();
-        // Navigate to the user details page with the user ID
+        // Navigate to the user details page with the courseId
         history(`/dashboard/coursesList/viewCourse/${courseId}`);
     };
 
@@ -118,6 +118,7 @@ const CoursesList = () => {
         columns: [...userColumn, ...actionColumn],
         rows: userData,
     };
+    
     return (
         <Box sx={{ flexGrow: 1, display: 'flex' }}>
             <Main open={open}>

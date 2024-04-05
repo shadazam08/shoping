@@ -86,12 +86,12 @@ create table if not exists student_courses_fees(
 	courses_fee_id int REFERENCES courses_fees(courses_fee_id) ON DELETE cascade
 );
 
+-- Create the table student_course_selection table
 create table if not exists student_course_selection (
     selection_id SERIAL PRIMARY KEY NOT NULL,
     student_id INT REFERENCES student_login(student_id) ON DELETE CASCADE,
     student_courses_fees_id INT REFERENCES student_courses_fees(student_courses_fees_id) ON DELETE CASCADE
 );
-
 
 select count(student_id) from student_login;
 
@@ -103,11 +103,18 @@ SELECT COUNT(student_join_date)
 FROM student_login 
 WHERE student_join_date >= CURRENT_DATE - INTERVAL '30' DAY;
 
+SELECT *
+FROM student_login 
+WHERE student_join_date >= CURRENT_DATE - INTERVAL '30' DAY;
+
 ALTER TABLE courses
 DROP COLUMN  course_fee;
 
 ALTER TABLE student_courses_fees
 DROP COLUMN student_id;
+
+ALTER TABLE student_course_selection
+ADD COLUMN course_id int REFERENCES courses(course_id) ON DELETE cascade;
 
 ALTER TABLE student_courses_fees
 ADD COLUMN courses_fee_id int REFERENCES courses_fees(courses_fee_id) ON DELETE cascade;
@@ -127,11 +134,20 @@ ADD COLUMN last_login date;
 ALTER TABLE student_login
 rename COLUMN last_login to student_last_login;
 
+ALTER TABLE admin_login
+rename COLUMN admin_name to admin_first_name;
+
+ALTER TABLE admin_login
+ADD COLUMN admin_last_name varchar(100);
+
 ALTER TABLE student_login
 ALTER COLUMN student_last_login TYPE TIMESTAMP;
 
 ALTER TABLE student_login
 ADD COLUMN image varchar(200);
+
+ALTER TABLE admin_details
+ADD COLUMN admin_details_mobile varchar(15);
 
 alter table student_login rename column  image to student_images;
 
@@ -161,5 +177,4 @@ SELECT	* FROM student_course_selection;
 
 SELECT	* FROM admin_details;
 
-SELECT  * FROM student_login where student_id = 5;
-
+SELECT	* FROM student_login where student_id = 5;

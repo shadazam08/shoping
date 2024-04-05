@@ -18,7 +18,6 @@ const Dashboard = () => {
                 </Box>
             </Main>
         </Box>
-
     )
 }
 

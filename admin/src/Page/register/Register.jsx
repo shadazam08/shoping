@@ -35,7 +35,9 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
         if (values.firstName && values.lastName && values.email && values.password && values.role) {
+
             if (values.password !== values.password1) {
                 setErrorMsg(true);
                 return; // Stop form submission if passwords don't match
@@ -59,7 +61,6 @@ const Register = () => {
                         setValid(true);
                     }, 2000);
                 } else {
-                    // Handle error response from the API
                     console.error('Registration failed');
                 }
             } catch (error) {
@@ -68,6 +69,7 @@ const Register = () => {
         }
         setSubmitted(true);
     };
+
     return (
         <div className='containe-forms'>
             {valid && <Navigate to="/login" />}

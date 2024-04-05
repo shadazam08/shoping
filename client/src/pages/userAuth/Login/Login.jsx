@@ -7,6 +7,7 @@ const Login = () => {
     const { serverPort, serverIP, isLoggedIn, login } = useAuth();
     const history = useNavigate();
     const [error, setError] = useState('');
+    const [loginError, setLoginError] = useState('');
     const [valid, setValid] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
@@ -60,11 +61,11 @@ const Login = () => {
                 }, 2000);
             } else {
                 if (parseRes.message === 'Invalid Email ID') {
-                    // setLoginError('Email Id Invalid');
+                    setLoginError('Email Id Invalid');
                 } else if (parseRes.message === 'Invalid Password') {
-                    // setLoginError('Password Invalid');
+                    setLoginError('Password Invalid');
                 } else if (parseRes.message === 'User is Disable') {
-                    // setLoginError('User Is Disabled');
+                    setLoginError('User Is Disabled');
                 }
                 console.error('Login failed. Status:', response.status);
                 const errorMessage = await response.text();
@@ -82,6 +83,7 @@ const Login = () => {
             <div className="form-container sign-in-container">
                 <form onSubmit={loginSubmit}>
                     {error && <Alert variant='danger' className='alertMessage'>{error} </Alert>}
+                    {loginError && <Alert variant='danger' className='alertMessage'>{loginError}</Alert>}
                     <h3 className='mb-1'>Sign in</h3>
                     <input
                         type="email"
@@ -103,7 +105,6 @@ const Login = () => {
                 </form>
             </div>
         </>
-
     )
 }
 

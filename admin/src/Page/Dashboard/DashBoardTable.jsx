@@ -36,7 +36,7 @@ const DashBoardTable = () => {
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
-    }
+    };
 
     const userColumn = [
         { field: 'serialNumber', headerName: '#', width: 70, sortable: false },
@@ -55,7 +55,7 @@ const DashBoardTable = () => {
 
     useEffect(() => {
         fetchInstructorsList();
-    }, []);
+    }, [ serverIP, serverPort]);
     return (
         <div>
             <CoreDashBoard {...initialState} />

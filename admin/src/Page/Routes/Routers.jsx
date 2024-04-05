@@ -49,6 +49,6 @@ const Routers = () => {
             <RouterProvider router={router} />
         </>
     )
-}
+};
 
 export default Routers
